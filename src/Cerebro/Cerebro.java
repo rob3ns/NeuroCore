@@ -7,6 +7,9 @@ package Cerebro;
 
 import Cerebro.Hemisferios.HDerecho;
 import Cerebro.Hemisferios.HIzquierdo;
+import Cerebro.Materia.MBlanca;
+import Cerebro.Materia.MGris;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,6 +17,9 @@ import Cerebro.Hemisferios.HIzquierdo;
  */
 public class Cerebro {
     
+    private ArrayList<Neurona> neuronas;
+    private MBlanca mblanca; // conecta neuronas (axones) entre hemisferios y lobulos
+    private MGris mgris; // procesa info
     private HDerecho hDer;
     private HIzquierdo hIzq;
 }
