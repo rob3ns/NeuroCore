@@ -1,0 +1,2 @@
+# NeuroCore
+Virtual human brain
