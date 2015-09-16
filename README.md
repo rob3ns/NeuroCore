@@ -1,2 +1,2 @@
 # NeuroCore
-Virtual human brain
+Aún en construcción
