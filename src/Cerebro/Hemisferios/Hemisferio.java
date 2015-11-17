@@ -21,12 +21,17 @@ package Cerebro.Hemisferios;
  * @author rob3ns
  */
 public class Hemisferio {
-    private boolean hDerecho = false;
-    private boolean hIzquierdo = false;
+    private boolean hDerecho;
+    private boolean hIzquierdo;
     private HDerecho hder;
     private HIzquierdo hizq;
 
+     /**
+     * Inicializada en Cerebro
+     */
     public Hemisferio() {
+        this.hDerecho = false;
+        this.hIzquierdo = false;
     }
 
     public boolean ishDerecho() {

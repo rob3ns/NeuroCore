@@ -22,6 +22,9 @@ package Cerebro.Hemisferios;
  */
 public class HDerecho extends Hemisferio{
 
+    /**
+     * Inicializada en Hemisferio
+     */
     public HDerecho() {
     }
     

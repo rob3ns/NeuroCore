@@ -24,15 +24,35 @@ import java.util.Scanner;
  */
 public class NeuroCore {
 
-    private static Cerebro core = new Cerebro();
+    private Cerebro core;
+    private final Scanner sc;
+
+    public NeuroCore() {
+        sc = new Scanner(System.in);
+    }
 
     public static void main(String[] args) {
-        // TODO code application logic here
-        Scanner sc = new Scanner(System.in);
+        NeuroCore nc = new NeuroCore();
+        
+        nc.iniciarCerebro();
+        nc.SelHemisferio();
+    }
 
+    private void SelHemisferio() {
         while (!core.getHemis().ishDerecho() && !core.getHemis().ishIzquierdo()) {
             System.out.println("Selecciona lado (derecha-izquierda):");
-            SelHemisferio(sc);
+            String st = sc.nextLine().toLowerCase();
+            switch (st) {
+                case "derecha":
+                    core.sethIzquierdo(true);
+                    break;
+                case "izquierda":
+                    core.sethDerecho(true);
+                    break;
+                default:
+                    System.out.println("Lado incorrecto.");
+                    break;
+            }
         }
         if (core.getHemis().ishDerecho()) {
             System.out.println("Has seleccionado el lado izquierdo. Hemisferio derecho en marcha.");
@@ -40,14 +60,9 @@ public class NeuroCore {
             System.out.println("Has seleccionado el lado derecho. Hemisferio izquierdo en marcha.");
         }
     }
-
-    public static void SelHemisferio(Scanner sc) {
-        String st = sc.nextLine().toLowerCase();
-        if (st.equals("derecha")) // Hizq controla lado der
-        {
-            core.sethIzquierdo(true);
-        } else if (st.equals("izquierda")) {
-            core.sethDerecho(true);
-        }
+    
+    private void iniciarCerebro() {
+        System.out.println("Inicializando...");
+        core = new Cerebro();
     }
 }

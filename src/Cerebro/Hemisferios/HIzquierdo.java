@@ -23,6 +23,10 @@ package Cerebro.Hemisferios;
 public class HIzquierdo extends Hemisferio {
 
     public int a = 0;
+    
+     /**
+     * Inicializada en Hemisferio
+     */
     public HIzquierdo() {
     }
     

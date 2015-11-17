@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package Cerebro;
 
 import Cerebro.Hemisferios.Hemisferio;
@@ -26,7 +25,7 @@ import java.util.ArrayList;
  * @author rob3ns
  */
 public class Cerebro {
-    
+
     private ArrayList<Neurona> neuronas;
     private MBlanca mblanca; // conecta neuronas (axones) entre hemisferios y lobulos
     private MGris mgris; // procesa info
@@ -34,7 +33,7 @@ public class Cerebro {
 
     public Cerebro() {
         this.neuronas = new ArrayList();
-        this.mblanca = new MBlanca();
+        this.mblanca = new MBlanca(this);
         this.mgris = new MGris();
         this.hemis = new Hemisferio();
     }
@@ -79,5 +78,22 @@ public class Cerebro {
     public void sethIzquierdo(boolean hIzquierdo) {
         this.hemis.sethIzquierdo(hIzquierdo);
         this.hemis.sethDerecho(!hIzquierdo);
+    }
+    
+    /**
+     * Pasar datos al otro hemisf (cl -> serv)
+     * Llamada: TODO
+     */
+    public void transferHemisferioOpuesto() {
+        //TODO: determinar que neuronas son las que se envian
+        this.mblanca.transferencia(neuronas);
+    }
+    
+    /**
+     * Recibir datos del otro hemisf
+     * Llamada en servidor
+     */
+    public void reciTransferencia() {
+        this.neuronas.addAll(mgris.pasarInfo());
     }
 }

@@ -28,6 +28,9 @@ public class Neurona {
     private LinkedList<Neurona> dendritas; // dentritas conectadas a mi axion ,recibe info de 20.000
     private BitSet nucleo; // informacion
 
+    /**
+     * Inicializada en Cerebro
+     */
     public Neurona() {
         this.axones = new LinkedList();
         this.dendritas = new LinkedList();
