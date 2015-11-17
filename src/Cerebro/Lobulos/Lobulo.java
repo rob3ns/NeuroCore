@@ -17,9 +17,12 @@
 
 package Cerebro.Lobulos;
 
+import Cerebro.Neurona;
+import java.util.ArrayList;
+
 /**
  * @author rob3ns
  */
 public class Lobulo {
-    
+        private ArrayList<Neurona> neuronas;
 }

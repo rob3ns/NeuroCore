@@ -17,8 +17,6 @@
 
 package Cerebro;
 
-import Cerebro.Hemisferios.HDerecho;
-import Cerebro.Hemisferios.HIzquierdo;
 import Cerebro.Hemisferios.Hemisferio;
 import Cerebro.Materia.MBlanca;
 import Cerebro.Materia.MGris;

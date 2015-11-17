@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package Cerebro;
 
 import java.util.BitSet;
@@ -24,43 +23,49 @@ import java.util.LinkedList;
  * @author rob3ns
  */
 public class Neurona {
+
     private LinkedList<Neurona> axones; // axones conectados a mi dentrita, envia info a 20.000
     private LinkedList<Neurona> dendritas; // dentritas conectadas a mi axion ,recibe info de 20.000
     private BitSet nucleo; // informacion
 
     public Neurona() {
-        this.axones =  new LinkedList();
-        this.dendritas =  new LinkedList();
+        this.axones = new LinkedList();
+        this.dendritas = new LinkedList();
         this.nucleo = new BitSet();
     }
-    
-    public void CrearSinapsis (Neurona neu, boolean recibe)
-    {
+
+    public void CrearSinapsis(Neurona neu, boolean recibe) {
         if (recibe) // Recibe info de una dendrita
+        {
             this.dendritas.add(neu);
-        else
+        } else {
             this.axones.add(neu);
-    }
-    
-    /**
-     * Pasamos toda nuestra info a la neurona neu.
-     * @param neu 
-     */
-    public void SinapsisUnidir (Neurona neu)
-    {
-        for (Neurona n : axones)
-            neu.getNucleo().or(n.getNucleo()); // A la neurona que vamos a enviar le pasamos la info de todas las demas a/d.
+        }
     }
 
-    public void SinapsisBidir()
-    {
-        for (Neurona n : dendritas) // Recibe info
-            this.nucleo.or(n.getNucleo());
-                
-        for (Neurona n : axones) // Envia info
-            n.getNucleo().or(this.nucleo);
+    /**
+     * Pasamos toda nuestra info a la neurona neu.
+     *
+     * @param neu
+     */
+    public void SinapsisUnidir(Neurona neu) {
+        for (Neurona n : axones) {
+            neu.getNucleo().or(n.getNucleo()); // A la neurona que vamos a enviar le pasamos la info de todas las demas a/d.
+        }
     }
-        
+
+    public void SinapsisBidir() {
+        for (Neurona n : dendritas) // Recibe info
+        {
+            this.nucleo.or(n.getNucleo());
+        }
+
+        for (Neurona n : axones) // Envia info
+        {
+            n.getNucleo().or(this.nucleo);
+        }
+    }
+
     public LinkedList<Neurona> getAxones() {
         return axones;
     }

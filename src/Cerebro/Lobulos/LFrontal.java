@@ -22,6 +22,6 @@ package Cerebro.Lobulos;
 /**
  * @author rob3ns
  */
-public class LFrontal {
+public class LFrontal extends Lobulo{
     
 }

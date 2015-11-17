@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package Main;
 
 import Cerebro.Cerebro;
@@ -31,23 +30,24 @@ public class NeuroCore {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
 
-        while (!core.getHemis().ishDerecho() && !core.getHemis().ishIzquierdo())
-        {
+        while (!core.getHemis().ishDerecho() && !core.getHemis().ishIzquierdo()) {
             System.out.println("Selecciona lado (derecha-izquierda):");
             SelHemisferio(sc);
         }
-        if (core.getHemis().ishDerecho())
+        if (core.getHemis().ishDerecho()) {
             System.out.println("Has seleccionado el lado izquierdo. Hemisferio derecho en marcha.");
-        else
-                        System.out.println("Has seleccionado el lado derecho. Hemisferio izquierdo en marcha.");
+        } else {
+            System.out.println("Has seleccionado el lado derecho. Hemisferio izquierdo en marcha.");
+        }
     }
-    
-    public static void SelHemisferio (Scanner sc)
-    {
-        String st  = sc.nextLine().toLowerCase();
+
+    public static void SelHemisferio(Scanner sc) {
+        String st = sc.nextLine().toLowerCase();
         if (st.equals("derecha")) // Hizq controla lado der
+        {
             core.sethIzquierdo(true);
-        else if (st.equals("izquierda"))
+        } else if (st.equals("izquierda")) {
             core.sethDerecho(true);
+        }
     }
 }
