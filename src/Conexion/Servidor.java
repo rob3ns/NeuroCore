@@ -17,17 +17,13 @@
 package Conexion;
 
 import Cerebro.Cerebro;
-import Cerebro.Materia.MGris;
-import Cerebro.Neurona;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,7 +35,6 @@ public class Servidor extends Thread {
     private static final int PUERTO = 5000;
     private ServerSocket serverSck;
     private Socket clienteSck;
-    private ArrayList<Neurona> neuronas;
     private Cerebro c;
 
     public Servidor(Cerebro c) {
@@ -53,6 +48,7 @@ public class Servidor extends Thread {
                 iniciarServer();
             }
         } catch (IOException ex) {
+            System.out.println("Error al iniciar servidor.");
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -61,7 +57,7 @@ public class Servidor extends Thread {
         try {
             serverSck = new ServerSocket(PUERTO);
         } catch (IOException e) {
-            System.out.println("No se ha podido escuchar en puerto 4321");
+            System.out.println("No se ha podido escuchar en puerto " + PUERTO);
             System.exit(-1);
         }
 
@@ -69,25 +65,40 @@ public class Servidor extends Thread {
         clienteSck = serverSck.accept();
         System.out.println("#Cliente aceptado: " + clienteSck.getLocalSocketAddress().toString());
 
-        OutputStream aux = clienteSck.getOutputStream();
-        InputStream in = clienteSck.getInputStream();
-
-        DataOutputStream fluout = new DataOutputStream(aux);
-        DataInputStream fluin = new DataInputStream(in);
-
-        int cantidad = fluin.readInt();
-
-        for (int i = 0; i < cantidad; i++) {
-            byte[] b = new byte[fluin.readInt()];
-            fluin.readFully(b);
-
-            c.getMgris().agregarBytes(b); // pasamos los bytes al cerebro
-        }
-        
+        recibirBytes();
         c.reciTransferencia();
-        fluout.writeUTF("Ok");
-        
+
         clienteSck.close();
         serverSck.close();
+    }
+
+    private void recibirBytes() {
+        InputStream inpStr = null;
+        OutputStream outpStr = null;
+        try {
+            inpStr = clienteSck.getInputStream();
+            outpStr = clienteSck.getOutputStream();
+            //DataOutputStream fluout = new DataOutputStream(aux);
+            DataInputStream fluin = new DataInputStream(inpStr);
+
+            int cantidad = fluin.readInt();
+            for (int i = 0; i < cantidad; i++) {
+                byte[] b = new byte[fluin.readInt()];
+                fluin.readFully(b);
+
+                c.getMgris().agregarBytes(b); // pasamos los bytes al cerebro
+            }
+        } catch (IOException ex) {
+            System.out.println("Error del servidor al recibir bytes.");
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                outpStr.close();
+                inpStr.close();
+            } catch (IOException ex) {
+                System.out.println("Error del servidor al cerrar Stream.");
+                Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

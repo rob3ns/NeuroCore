@@ -25,7 +25,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,22 +65,37 @@ public class Cliente extends Thread {
             System.exit(1);
         }
 
-        InputStream aux = clienteSck.getInputStream();
-        OutputStream outp = clienteSck.getOutputStream();
-
-        DataInputStream fluin = new DataInputStream(aux);
-        DataOutputStream fluout = new DataOutputStream(outp);
-
-        fluout.write(neuronas.size()); // Servidor necesita la cantidad
-
-        for (Neurona n : neuronas) {
-            byte[] b = n.getNucleo().toByteArray();
-
-            fluout.write(b.length);
-            fluout.write(b);
-        }
-        
-        System.out.println(fluin.readUTF());
+        enviarBytes();
         clienteSck.close();
+    }
+
+    private void enviarBytes() {
+        InputStream inpStr = null;
+        OutputStream outpStr = null;
+        try {
+            inpStr = clienteSck.getInputStream();
+            outpStr = clienteSck.getOutputStream();
+            //DataInputStream fluin = new DataInputStream(aux);
+            DataOutputStream fluout = new DataOutputStream(outpStr);
+
+            fluout.write(neuronas.size()); // Servidor necesita la cantidad
+            for (Neurona n : neuronas) {
+                byte[] b = n.getNucleo().toByteArray();
+
+                fluout.write(b.length);
+                fluout.write(b);
+            }
+        } catch (IOException ex) {
+            System.out.println("Error del cliente al enviar bytes.");
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                inpStr.close();
+                outpStr.close();
+            } catch (IOException ex) {
+                System.out.println("Error del cliente al cerrar Stream.");
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

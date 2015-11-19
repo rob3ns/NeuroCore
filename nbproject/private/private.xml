@@ -3,11 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/NeuroCore/src/Cerebro/Hemisferios/HDerecho.java</file>
             <file>file:/D:/NeuroCore/src/Cerebro/Neurona.java</file>
             <file>file:/D:/NeuroCore/src/Conexion/Cliente.java</file>
+            <file>file:/D:/NeuroCore/src/Cerebro/Hemisferios/HIzquierdo.java</file>
+            <file>file:/D:/NeuroCore/src/Cerebro/Hemisferios/Hemisferio.java</file>
             <file>file:/D:/NeuroCore/src/Main/NeuroCore.java</file>
+            <file>file:/D:/NeuroCore/src/Cerebro/Materia/MBlanca.java</file>
             <file>file:/D:/NeuroCore/src/Cerebro/Cerebro.java</file>
             <file>file:/D:/NeuroCore/src/Conexion/Servidor.java</file>
+            <file>file:/D:/NeuroCore/src/Cerebro/Materia/MGris.java</file>
         </group>
     </open-files>
 </project-private>
