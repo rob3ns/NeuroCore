@@ -3,3 +3,4 @@ build/
 dist/
 *.xml
 *.class
+src/Main/NeuroCore.java
