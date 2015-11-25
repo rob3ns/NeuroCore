@@ -37,33 +37,25 @@ public class MGris {
     }
 
     /**
-     * Agrega una nueva neur a partir de los bytes
-     * Solo añade nucleo
-     * @param b 
+     * Agrega una nueva neur a partir de los bytes Solo añade nucleo
+     *
+     * @param b
      */
     public void agregarBytes(byte[] b) {
         Neurona n = new Neurona();
-        BitSet bset = this.fromString(b.toString());
-        
-        n.setNucleo(bset);
+        n.nuevoString(b.toString());
+
         neuronas.add(n);
     }
-    
+
     /**
      * Return de neuronas y limpia las anteriores (eq. a flushbitreader)
+     *
      * @return Array N
      */
     public ArrayList<Neurona> pasarInfo() {
         ArrayList<Neurona> ret = neuronas;
         neuronas.clear();
         return ret;
-    }
-    
-    private BitSet fromString(final String s) {
-        return BitSet.valueOf(new long[] { Long.parseLong(s, 2) });
-    }
-
-    private String toString(BitSet bs) {
-        return Long.toString(bs.toLongArray()[0], 2);
     }
 }

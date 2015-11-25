@@ -69,6 +69,22 @@ public class Neurona {
         }
     }
 
+    public void nuevoString(final String s) {
+        this.nucleo = this.fromString(s);
+    }
+
+    public String traducirInfo() {
+        return this.toString(this.nucleo);
+    }
+
+    private BitSet fromString(final String s) {
+        return BitSet.valueOf(new long[]{Long.parseLong(s, 2)});
+    }
+
+    private String toString(BitSet bs) {
+        return Long.toString(bs.toLongArray()[0], 2);
+    }
+
     public LinkedList<Neurona> getAxones() {
         return axones;
     }
