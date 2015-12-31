@@ -1,6 +1,7 @@
-nbproject/private/
-build/
-dist/
-*.xml
-*.class
-src/Main/NeuroCore.java
+/*
+!/src/Cerebro
+!/src/Conexion
+!/lib
+!.gitignore
+!/src/
+/src/Cerebro/Neurona.java
