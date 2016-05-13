@@ -51,44 +51,46 @@ public class NeuroCore {
 
 	private void SelHemisferio() {
 		while (!core.getHemis().isIniciado()) {
-			log.print("Selecciona lado (derecha-izquierda):");
-			String st = sc.nextLine().toLowerCase();
+			log.print("Selecciona lado (derecho/izquierdo):");
+			String st = log.readStr(sc).toLowerCase();
 			
-			if (st.equals("derecha")) {
+			if (st.equals("d")) {
 				core.sethIzquierdo(true);
-			} else if (st.equals("izquierda")) {
+			} else if (st.equals("i")) {
 				core.sethDerecho(true);
 			} else {
-				log.print("Lado incorrecto.");
+				log.println("Lado incorrecto.");
 			}
 
 		}
 		if (core.getHemis().ishDerecho()) {
-			log.print("Has seleccionado el lado izquierdo. Hemisferio derecho en marcha.");
+			log.println("Has seleccionado el lado izquierdo. Hemisferio derecho en marcha.");
 		} else {
-			log.print("Has seleccionado el lado derecho. Hemisferio izquierdo en marcha.");
+			log.println("Has seleccionado el lado derecho. Hemisferio izquierdo en marcha.");
 		}
 		
 		String input = "";
 		while (!input.equals("stop")) {
 			log.print("Yo: ");
-			input = sc.nextLine();
+			input = log.readStr(sc);
 			
-			log.print("NC: " + core.generarRespuesta(input) + "\n"); //TODO
+			log.println("NC: " + core.generarRespuesta(input) + "\n"); //TODO
 		}
 		
 		stopCerebro();
 	}
 
 	private void iniciarCerebro() {
-		log.print("Inicializando...");
+		log.println("Inicializando...");
 		core = new Cerebro();
 	}
 
 	private void stopCerebro() {
-		log.print("Finalizando...");
-		log.close();
+		log.println("Finalizando...");
 		core.stop();
+		log.println("Finalizado.");
+		log.close();
+		System.exit(1);
 	}
 
 	private void driverDatabase() {

@@ -2,6 +2,9 @@ package Utils;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author rob3ns
@@ -9,22 +12,36 @@ import java.io.PrintWriter;
 public class Log {
 
 	private String className;
-	private String logInfo;
+	private List<String> logInfo;
 	private int saveLevel;
 	private int skippedLines;
 
 	public Log (Class<?> c) {
 		className = c.getSimpleName();
-		logInfo = "";
-		saveLevel = 0;
-		skippedLines = 0;
+		resetData();
 	}
 
-	public void print(String msg) {
+	private void resetData() {
+		logInfo = new ArrayList<String>();
+		saveLevel = 1;
+		skippedLines = 0;
+	}
+	
+	public void println(String msg) {
 		System.out.println(msg);
 		saveLogInfo(msg, 0);
 	}
+	
+	public void print(String msg) {
+		System.out.print(msg);
+		saveLogInfo(msg, 0);
+	}
 
+	public String readStr(Scanner sc) {
+		String msg = sc.nextLine();
+		saveLogInfo(msg, 3);
+		return msg;
+	}
 	public void debug(String msg) {
 		String info = buildMsg(1, msg);
 
@@ -49,6 +66,8 @@ public class Log {
 		case 2:
 			type = "Error";
 			break;
+		case 3:
+			break;
 		default:
 			type = "Unk";
 			break;
@@ -60,26 +79,31 @@ public class Log {
 	}
 
 	private void saveLogInfo(String info, int mode) {
-		if (saveLevel <= mode) {
-			logInfo += info + "/n";
+		if (saveLevel >= mode) {
+			if (mode == 3) {
+				int pos = logInfo.size() - 1;
+				String s = logInfo.get(pos);
+				s += info;
+				logInfo.set(pos, s);
+			} else {
+				logInfo.add(info);
+			}
 		} else {
 			skippedLines++;
 		}
 	}
 
-	private void resetData() {
-		logInfo = "";
-		saveLevel = 0;
-		skippedLines = 0;
-	}
-
 	public void close() {
-		String skpLines = "Amount of avoided lines" + skippedLines;
+		String skpLines = "Amount of lines avoided: " + skippedLines;
 		saveLogInfo(skpLines, saveLevel);
 
 		try {
 			PrintWriter file = new PrintWriter("./log.txt");
-			file.println(logInfo);
+			
+			for (String str : Caster.safeIterable(logInfo)) {
+				file.println(str);
+			}
+			
 			file.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Log file not found. Class: " + className);
