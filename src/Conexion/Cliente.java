@@ -17,6 +17,7 @@
 package Conexion;
 
 import Cerebro.Neurona;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +27,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import Utils.Caster;
 
 /**
  * @author rob3ns
@@ -79,7 +82,7 @@ public class Cliente extends Thread {
 
             fluout.write(neuronas.size()); // Servidor necesita la cantidad
             for (Neurona n : neuronas) {
-                byte[] b = n.getNucleo().toByteArray();
+                byte[] b = Caster.bitSetToByteArray(n.getNucleo());
 
                 fluout.write(b.length);
                 fluout.write(b);

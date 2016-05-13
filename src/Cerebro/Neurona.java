@@ -19,93 +19,87 @@ package Cerebro;
 import java.util.BitSet;
 import java.util.LinkedList;
 
+import Utils.Caster;
+
 /**
  * @author rob3ns
  */
 public class Neurona {
 
-    private LinkedList<Neurona> axones; // axones conectados a mi dentrita, envia info a 20.000
-    private LinkedList<Neurona> dendritas; // dentritas conectadas a mi axion ,recibe info de 20.000
-    private BitSet nucleo; // informacion
+	private LinkedList<Neurona> axones; // axones conectados a mi dentrita, envia info a 20.000
+	private LinkedList<Neurona> dendritas; // dentritas conectadas a mi axion ,recibe info de 20.000
+	private BitSet nucleo; // informacion
 
-    /**
-     * Inicializada en Cerebro
-     */
-    public Neurona() {
-        this.axones = new LinkedList();
-        this.dendritas = new LinkedList();
-        this.nucleo = new BitSet();
-    }
+	/**
+	 * Inicializada en Cerebro
+	 */
+	public Neurona() {
+		this.axones = new LinkedList();
+		this.dendritas = new LinkedList();
+		this.nucleo = new BitSet();
+	}
 
-    public void CrearSinapsis(Neurona neu, boolean recibe) {
-        if (recibe) // Recibe info de una dendrita
-        {
-            this.dendritas.add(neu);
-        } else {
-            this.axones.add(neu);
-        }
-    }
+	public void CrearSinapsis(Neurona neu, boolean recibe) {
+		if (recibe) // Recibe info de una dendrita
+		{
+			this.dendritas.add(neu);
+		} else {
+			this.axones.add(neu);
+		}
+	}
 
-    /**
-     * Pasamos toda nuestra info a la neurona neu.
-     *
-     * @param neu
-     */
-    public void SinapsisUnidir(Neurona neu) {
-        for (Neurona n : axones) {
-            neu.getNucleo().or(n.getNucleo()); // A la neurona que vamos a enviar le pasamos la info de todas las demas a/d.
-        }
-    }
+	/**
+	 * Pasamos toda nuestra info a la neurona neu.
+	 *
+	 * @param neu
+	 */
+	public void SinapsisUnidir(Neurona neu) {
+		for (Neurona n : axones) {
+			neu.getNucleo().or(n.getNucleo()); // A la neurona que vamos a enviar le pasamos la info de todas las demas a/d.
+		}
+	}
 
-    public void SinapsisBidir() {
-        for (Neurona n : dendritas) // Recibe info
-        {
-            this.nucleo.or(n.getNucleo());
-        }
+	public void SinapsisBidir() {
+		for (Neurona n : dendritas) // Recibe info
+		{
+			this.nucleo.or(n.getNucleo());
+		}
 
-        for (Neurona n : axones) // Envia info
-        {
-            n.getNucleo().or(this.nucleo);
-        }
-    }
+		for (Neurona n : axones) // Envia info
+		{
+			n.getNucleo().or(this.nucleo);
+		}
+	}
 
-    public void nuevoString(final String s) {
-        this.nucleo = this.fromString(s);
-    }
+	public void nuevoString(final String s) {
+		this.nucleo = Caster.stringToBitSet(s);
+	}
 
-    public String traducirInfo() {
-        return this.toString(this.nucleo);
-    }
+	public String traducirInfo() {
+		return Caster.bitSetToString(this.nucleo);
+	}
 
-    private BitSet fromString(final String s) {
-        return BitSet.valueOf(new long[]{Long.parseLong(s, 2)});
-    }
+	public LinkedList<Neurona> getAxones() {
+		return axones;
+	}
 
-    private String toString(BitSet bs) {
-        return Long.toString(bs.toLongArray()[0], 2);
-    }
+	public void setAxones(LinkedList<Neurona> axones) {
+		this.axones = axones;
+	}
 
-    public LinkedList<Neurona> getAxones() {
-        return axones;
-    }
+	public LinkedList<Neurona> getDendritas() {
+		return dendritas;
+	}
 
-    public void setAxones(LinkedList<Neurona> axones) {
-        this.axones = axones;
-    }
+	public void setDendritas(LinkedList<Neurona> dendritas) {
+		this.dendritas = dendritas;
+	}
 
-    public LinkedList<Neurona> getDendritas() {
-        return dendritas;
-    }
+	public BitSet getNucleo() {
+		return nucleo;
+	}
 
-    public void setDendritas(LinkedList<Neurona> dendritas) {
-        this.dendritas = dendritas;
-    }
-
-    public BitSet getNucleo() {
-        return nucleo;
-    }
-
-    public void setNucleo(BitSet nucleo) {
-        this.nucleo = nucleo;
-    }
+	public void setNucleo(BitSet nucleo) {
+		this.nucleo = nucleo;
+	}
 }
