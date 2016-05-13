@@ -17,7 +17,9 @@
 package Main;
 
 import Cerebro.Cerebro;
+import Conexion.Database;
 import java.util.Scanner;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  * @author rob3ns
@@ -26,14 +28,17 @@ public class NeuroCore {
 
     private Cerebro core;
     private final Scanner sc;
+    private Database db;
 
     public NeuroCore() {
         sc = new Scanner(System.in);
+        driverDatabase();
+        db = new Database("localhost", "root", "");
     }
 
     public static void main(String[] args) {
         NeuroCore nc = new NeuroCore();
-        
+
         nc.iniciarCerebro();
         nc.SelHemisferio();
     }
@@ -60,9 +65,25 @@ public class NeuroCore {
             System.out.println("Has seleccionado el lado derecho. Hemisferio izquierdo en marcha.");
         }
     }
-    
+
     private void iniciarCerebro() {
         System.out.println("Inicializando...");
         core = new Cerebro();
+    }
+    
+    private void stopCerebro() {
+        System.out.println("Finalizando...");
+        //core.stop();
+    }
+
+    private void driverDatabase() {
+        System.out.println("Cargando driver...");
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Driver cargado!");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("No se ha encontrado el driver!", e);
+        }
     }
 }
