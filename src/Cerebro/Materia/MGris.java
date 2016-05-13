@@ -33,7 +33,7 @@ public class MGris {
      */
     public MGris() {
         //TODO
-        neuronas = new ArrayList();
+        neuronas = new ArrayList<Neurona>();
     }
 
     /**

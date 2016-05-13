@@ -1,7 +1,11 @@
 package Utils;
 
 import java.util.BitSet;
+import java.util.Collections;
 
+/**
+ * @author rob3ns
+ */
 public class Caster {
 
 	public Caster() { }
@@ -16,7 +20,7 @@ public class Caster {
 		}
 		return bytes;
 	}
-	
+
 	public static String bitSetToString(BitSet bits) {
 		byte[] bytes = Caster.bitSetToByteArray(bits);
 		return Caster.byteArrayToString(bytes);
@@ -45,5 +49,10 @@ public class Caster {
 	public static BitSet stringToBitSet(String s) {
 		byte[] bArray = Caster.stringToByteArray(s);
 		return Caster.byteArrayToBitSet(bArray);
+	}
+
+	//Others
+	public static <T> Iterable<T> safeIterable(Iterable<T> it) {
+		return it == null ? Collections.<T>emptyList() : it;
 	}
 }

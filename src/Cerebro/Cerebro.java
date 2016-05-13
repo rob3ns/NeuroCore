@@ -32,7 +32,7 @@ public class Cerebro {
     private Hemisferio hemis;
 
     public Cerebro() {
-        this.neuronas = new ArrayList();
+        this.neuronas = new ArrayList<Neurona>();
         this.mblanca = new MBlanca(this);
         this.mgris = new MGris();
         this.hemis = new Hemisferio();

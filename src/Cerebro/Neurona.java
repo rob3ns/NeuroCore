@@ -34,14 +34,13 @@ public class Neurona {
 	 * Inicializada en Cerebro
 	 */
 	public Neurona() {
-		this.axones = new LinkedList();
-		this.dendritas = new LinkedList();
+		this.axones = new LinkedList<Neurona>();
+		this.dendritas = new LinkedList<Neurona>();
 		this.nucleo = new BitSet();
 	}
 
 	public void CrearSinapsis(Neurona neu, boolean recibe) {
-		if (recibe) // Recibe info de una dendrita
-		{
+		if (recibe) {
 			this.dendritas.add(neu);
 		} else {
 			this.axones.add(neu);
@@ -49,24 +48,22 @@ public class Neurona {
 	}
 
 	/**
-	 * Pasamos toda nuestra info a la neurona neu.
+	 * Pasamos toda nuestra info a la neurona.
 	 *
-	 * @param neu
+	 * @param neu Neurona
 	 */
 	public void SinapsisUnidir(Neurona neu) {
-		for (Neurona n : axones) {
+		for (Neurona n : Caster.safeIterable(axones)) {
 			neu.getNucleo().or(n.getNucleo()); // A la neurona que vamos a enviar le pasamos la info de todas las demas a/d.
 		}
 	}
 
 	public void SinapsisBidir() {
-		for (Neurona n : dendritas) // Recibe info
-		{
+		for (Neurona n : Caster.safeIterable(dendritas)) { // Recibe info
 			this.nucleo.or(n.getNucleo());
 		}
 
-		for (Neurona n : axones) // Envia info
-		{
+		for (Neurona n : Caster.safeIterable(axones)) { // Envia info
 			n.getNucleo().or(this.nucleo);
 		}
 	}

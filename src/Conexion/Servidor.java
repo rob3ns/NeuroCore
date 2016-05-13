@@ -17,6 +17,7 @@
 package Conexion;
 
 import Cerebro.Cerebro;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +26,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import Utils.Log;
 
 /**
  * @author rob3ns
@@ -35,9 +38,11 @@ public class Servidor extends Thread {
     private ServerSocket serverSck;
     private Socket clienteSck;
     private Cerebro c;
+    private Log log;
 
     public Servidor(Cerebro c) {
         this.c = c;
+        log = new Log(this.getClass());
     }
 
     @Override
@@ -47,7 +52,7 @@ public class Servidor extends Thread {
                 iniciarServer();
             }
         } catch (IOException ex) {
-            System.out.println("Error al iniciar servidor.");
+            log.error("Al iniciar servidor.");
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -56,13 +61,13 @@ public class Servidor extends Thread {
         try {
             serverSck = new ServerSocket(PUERTO);
         } catch (IOException e) {
-            System.out.println("No se ha podido escuchar en puerto " + PUERTO);
+            log.error("No se ha podido escuchar en puerto " + PUERTO);
             System.exit(-1);
         }
 
-        System.out.println("#Escucho el puerto " + PUERTO);
+        log.debug("Escucho el puerto " + PUERTO);
         clienteSck = serverSck.accept();
-        System.out.println("#Cliente aceptado: " + clienteSck.getLocalSocketAddress().toString());
+        log.debug("Cliente aceptado: " + clienteSck.getLocalSocketAddress().toString());
 
         recibirBytes();
         c.reciTransferencia();
@@ -75,10 +80,9 @@ public class Servidor extends Thread {
         InputStream inpStr = null;
         OutputStream outpStr = null;
         try {
+            DataInputStream fluin = new DataInputStream(inpStr);
             inpStr = clienteSck.getInputStream();
             outpStr = clienteSck.getOutputStream();
-            //DataOutputStream fluout = new DataOutputStream(aux);
-            DataInputStream fluin = new DataInputStream(inpStr);
 
             int cantidad = fluin.readInt();
             for (int i = 0; i < cantidad; i++) {
@@ -88,14 +92,14 @@ public class Servidor extends Thread {
                 c.getMgris().agregarBytes(b); // pasamos los bytes al cerebro
             }
         } catch (IOException ex) {
-            System.out.println("Error del servidor al recibir bytes.");
+            log.error("Al recibir bytes.");
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 outpStr.close();
                 inpStr.close();
             } catch (IOException ex) {
-                System.out.println("Error del servidor al cerrar Stream.");
+                log.error("Al cerrar Stream.");
                 Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

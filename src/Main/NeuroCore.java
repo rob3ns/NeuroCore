@@ -18,72 +18,80 @@ package Main;
 
 import Cerebro.Cerebro;
 import Conexion.Database;
+
 import java.util.Scanner;
+
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
+import Utils.Log;
 
 /**
  * @author rob3ns
  */
 public class NeuroCore {
 
-    private Cerebro core;
-    private final Scanner sc;
-    private Database db;
+	private Cerebro core;
+	private final Scanner sc;
+	private Database db;
+	private Log log;
 
-    public NeuroCore() {
-        sc = new Scanner(System.in);
-        driverDatabase();
-        db = new Database("localhost", "root", "");
-    }
+	public NeuroCore() {
+		sc = new Scanner(System.in);
+		log = new Log(this.getClass());
+		driverDatabase();
+		db = new Database("localhost", "root", "");
+	}
 
-    public static void main(String[] args) {
-        NeuroCore nc = new NeuroCore();
+	public static void main(String[] args) {
+		NeuroCore nc = new NeuroCore();
 
-        nc.iniciarCerebro();
-        nc.SelHemisferio();
-    }
+		nc.iniciarCerebro();
+		nc.SelHemisferio();
+	}
 
-    private void SelHemisferio() {
-        while (!core.getHemis().ishDerecho() && !core.getHemis().ishIzquierdo()) {
-            System.out.println("Selecciona lado (derecha-izquierda):");
-            String st = sc.nextLine().toLowerCase();
-            switch (st) {
-                case "derecha":
-                    core.sethIzquierdo(true);
-                    break;
-                case "izquierda":
-                    core.sethDerecho(true);
-                    break;
-                default:
-                    System.out.println("Lado incorrecto.");
-                    break;
-            }
-        }
-        if (core.getHemis().ishDerecho()) {
-            System.out.println("Has seleccionado el lado izquierdo. Hemisferio derecho en marcha.");
-        } else {
-            System.out.println("Has seleccionado el lado derecho. Hemisferio izquierdo en marcha.");
-        }
-    }
+	private void SelHemisferio() {
+		while (!core.getHemis().ishDerecho() && !core.getHemis().ishIzquierdo()) {
+			log.print("Selecciona lado (derecha-izquierda):");
+			String st = sc.nextLine().toLowerCase();
+			
+			switch (st) {
+			case "derecha":
+				core.sethIzquierdo(true);
+				break;
+			case "izquierda":
+				core.sethDerecho(true);
+				break;
+			default:
+				System.out.println("Lado incorrecto.");
+				break;
+			}
+		}
+		if (core.getHemis().ishDerecho()) {
+			log.print("Has seleccionado el lado izquierdo. Hemisferio derecho en marcha.");
+		} else {
+			log.print("Has seleccionado el lado derecho. Hemisferio izquierdo en marcha.");
+		}
+	}
 
-    private void iniciarCerebro() {
-        System.out.println("Inicializando...");
-        core = new Cerebro();
-    }
-    
-    private void stopCerebro() {
-        System.out.println("Finalizando...");
-        //core.stop();
-    }
+	private void iniciarCerebro() {
+		log.print("Inicializando...");
+		core = new Cerebro();
+	}
 
-    private void driverDatabase() {
-        System.out.println("Cargando driver...");
+	private void stopCerebro() {
+		log.print("Finalizando...");
+		//core.stop();
+	}
 
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            System.out.println("Driver cargado!");
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException("No se ha encontrado el driver!", e);
-        }
-    }
+	private void driverDatabase() {
+		log.debug("Cargando driver...");
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			log.debug("Driver cargado!");
+		} catch (ClassNotFoundException e) {
+			log.error("Driver no encontrado");
+			throw new IllegalStateException("", e);
+		}
+	}
 }

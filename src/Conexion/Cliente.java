@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Utils.Caster;
+import Utils.Log;
 
 /**
  * @author rob3ns
@@ -39,9 +40,11 @@ public class Cliente extends Thread {
     private static final int PUERTO = 5000;
     private Socket clienteSck;
     private final ArrayList<Neurona> neuronas;
+    private Log log;
 
     public Cliente(ArrayList<Neurona> info) {
-        this.neuronas = info;
+        neuronas = info;
+        log = new Log(this.getClass());
     }
 
     /**
@@ -75,10 +78,9 @@ public class Cliente extends Thread {
         InputStream inpStr = null;
         OutputStream outpStr = null;
         try {
+            DataOutputStream fluout = new DataOutputStream(outpStr);
             inpStr = clienteSck.getInputStream();
             outpStr = clienteSck.getOutputStream();
-            //DataInputStream fluin = new DataInputStream(aux);
-            DataOutputStream fluout = new DataOutputStream(outpStr);
 
             fluout.write(neuronas.size()); // Servidor necesita la cantidad
             for (Neurona n : neuronas) {
@@ -88,14 +90,14 @@ public class Cliente extends Thread {
                 fluout.write(b);
             }
         } catch (IOException ex) {
-            System.out.println("Error del cliente al enviar bytes.");
+            log.error("Error del cliente al enviar bytes.");
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 inpStr.close();
                 outpStr.close();
             } catch (IOException ex) {
-                System.out.println("Error del cliente al cerrar Stream.");
+                log.error("Error del cliente al cerrar Stream.");
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
