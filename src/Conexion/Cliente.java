@@ -59,17 +59,17 @@ public class Cliente extends Thread {
 	private void iniciarCliente() throws IOException {
 		try {
 			clienteSck = new Socket(HOST, PUERTO);
+			enviarBytes();
+			clienteSck.close();
 		} catch (UnknownHostException e) {
 			log.error("Unknown host: " + HOST);
-			System.exit(1);
+			//System.exit(1);
 		} catch (IOException e) {
 			log.error("No I/O");
-			System.exit(1);
+			//System.exit(1);
 		}
 
-		enviarBytes();
-		
-		clienteSck.close();
+
 	}
 
 	private void enviarBytes() {
@@ -88,8 +88,9 @@ public class Cliente extends Thread {
 					fluout.write(b.length);
 					fluout.write(b);
 				}
-			} else {
-				fluout.write(Integer.MIN_VALUE);
+			} else { // test
+				int n = 0;
+				fluout.write(n);
 			}
 		} catch (IOException ex) {
 			log.error("Al enviar bytes.");
