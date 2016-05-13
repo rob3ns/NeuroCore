@@ -38,7 +38,7 @@ public class NeuroCore {
 	public NeuroCore() {
 		sc = new Scanner(System.in);
 		log = new Log(this.getClass());
-		driverDatabase();
+		//driverDatabase();
 		db = new Database("localhost", "root", "");
 	}
 
@@ -54,17 +54,14 @@ public class NeuroCore {
 			log.print("Selecciona lado (derecha-izquierda):");
 			String st = sc.nextLine().toLowerCase();
 			
-			switch (st) {
-			case "derecha":
+			if (st.equals("derecha")) {
 				core.sethIzquierdo(true);
-				break;
-			case "izquierda":
+			} else if (st.equals("izquierda")) {
 				core.sethDerecho(true);
-				break;
-			default:
-				System.out.println("Lado incorrecto.");
-				break;
+			} else {
+				log.print("Lado incorrecto.");
 			}
+
 		}
 		if (core.getHemis().ishDerecho()) {
 			log.print("Has seleccionado el lado izquierdo. Hemisferio derecho en marcha.");
