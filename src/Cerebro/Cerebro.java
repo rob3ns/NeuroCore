@@ -26,82 +26,83 @@ import java.util.ArrayList;
  */
 public class Cerebro {
 
-    private ArrayList<Neurona> neuronas;
-    private MBlanca matBlanca; // conecta neuronas (axones) entre hemisferios y lobulos
-    private MGris matGris; // procesa info
-    private Hemisferio hemis;
+	private ArrayList<Neurona> neuronas;
+	private MBlanca matBlanca; // conecta neuronas (axones) entre hemisferios y lobulos
+	private MGris matGris; // procesa info
+	private Hemisferio hemis;
 
-    public Cerebro() {
-        this.neuronas = new ArrayList<Neurona>();
-        this.matBlanca = new MBlanca(this);
-        this.matGris = new MGris();
-        this.hemis = new Hemisferio();
-    }
+	public Cerebro() {
+		this.neuronas = new ArrayList<Neurona>();
+		this.matBlanca = new MBlanca(this);
+		this.matGris = new MGris();
+		this.hemis = new Hemisferio();
+	}
 
-    public String generarRespuesta(String s) {
-    	String res = "";
-    	return res;
-    }
-    public ArrayList<Neurona> getNeuronas() {
-        return neuronas;
-    }
+	public String generarRespuesta(String s) {
+		String res = "";
+		//TODO:
+		return res;
+	}
+	public ArrayList<Neurona> getNeuronas() {
+		return neuronas;
+	}
 
-    public void setNeuronas(ArrayList<Neurona> neuronas) {
-        this.neuronas = neuronas;
-    }
+	public void setNeuronas(ArrayList<Neurona> neuronas) {
+		this.neuronas = neuronas;
+	}
 
-    public MBlanca getMblanca() {
-        return matBlanca;
-    }
+	public MBlanca getMblanca() {
+		return matBlanca;
+	}
 
-    public void setMblanca(MBlanca mblanca) {
-        this.matBlanca = mblanca;
-    }
+	public void setMblanca(MBlanca mblanca) {
+		this.matBlanca = mblanca;
+	}
 
-    public MGris getMgris() {
-        return matGris;
-    }
+	public MGris getMgris() {
+		return matGris;
+	}
 
-    public void setMgris(MGris mgris) {
-        this.matGris = mgris;
-    }
+	public void setMgris(MGris mgris) {
+		this.matGris = mgris;
+	}
 
-    public Hemisferio getHemis() {
-        return hemis;
-    }
+	public Hemisferio getHemis() {
+		return hemis;
+	}
 
-    public void setHemis(Hemisferio hemis) {
-        this.hemis = hemis;
-    }
+	public void setHemis(Hemisferio hemis) {
+		this.hemis = hemis;
+	}
 
-    public void sethDerecho(boolean hDerecho) {
-        this.hemis.sethDerecho(hDerecho);
-        this.hemis.sethIzquierdo(!hDerecho);
-    }
+	public void sethDerecho(boolean hDerecho) {
+		this.hemis.sethDerecho(hDerecho);
+		this.hemis.sethIzquierdo(!hDerecho);
+	}
 
-    public void sethIzquierdo(boolean hIzquierdo) {
-        this.hemis.sethIzquierdo(hIzquierdo);
-        this.hemis.sethDerecho(!hIzquierdo);
-    }
-    
-    /**
-     * Pasar datos al otro hemisf (cl -> serv)
-     * Llamada: TODO
-     */
-    public void transferHemisferioOpuesto() {
-        //TODO: determinar que neuronas son las que se envian
-        this.matBlanca.transferencia(neuronas);
-    }
-    
-    /**
-     * Recibir datos del otro hemisf
-     * Llamada en servidor
-     */
-    public void reciTransferencia() {
-        this.neuronas.addAll(matGris.pasarInfo());
-    }
-    
-    public void stop() {
-    	matBlanca.stop();
-    }
+	public void sethIzquierdo(boolean hIzquierdo) {
+		this.hemis.sethIzquierdo(hIzquierdo);
+		this.hemis.sethDerecho(!hIzquierdo);
+	}
+
+	/**
+	 * Pasar datos al otro hemisf (cl -> serv)
+	 * Llamada: TODO
+	 */
+	 public void transferHemisferioOpuesto() {
+		 //TODO: determinar que neuronas son las que se envian
+		 this.matBlanca.transferencia(neuronas);
+	 }
+
+	 /**
+	  * Recibir datos del otro hemisf
+	  * Llamada en servidor
+	  */
+	 public void reciTransferencia() {
+		 this.neuronas.addAll(matGris.pasarInfo());
+	 }
+	 
+	 public void stop() {
+		 matBlanca.stop();
+	 }
 }

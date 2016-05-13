@@ -34,84 +34,87 @@ import Utils.Log;
  */
 public class Servidor extends Thread {
 
-    private static final int PUERTO = 5000;
-    private ServerSocket serverSck;
-    private Socket clienteSck;
-    private boolean on;
-    private Cerebro c;
-    private Log log;
+	private static final int PUERTO = 5000;
+	private ServerSocket serverSck;
+	private Socket clienteSck;
+	private boolean on;
+	private Cerebro c;
+	private Log log;
 
-    public Servidor(Cerebro c) {
-        this.c = c;
-        log = new Log(this.getClass());
-        on = true;
-    }
+	public Servidor(Cerebro c) {
+		this.c = c;
+		log = new Log(this.getClass());
+		on = true;
+	}
 
-    @Override
-    public void run() {
-        try {
-            while (on) {
-                iniciarServer();
-            }
-        } catch (IOException ex) {
-            log.error("Al iniciar servidor.");
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+	@Override
+	public void run() {
+		try {
+			while (on) {
+				iniciarServer();
+			}
+		} catch (IOException ex) {
+			log.error("Al iniciar servidor.");
+			Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 
 	private void iniciarServer() throws IOException {
-        try {
-            serverSck = new ServerSocket(PUERTO);
-        } catch (IOException e) {
-            log.error("No se ha podido escuchar en puerto " + PUERTO);
-            System.exit(-1);
-        }
+		try {
+			serverSck = new ServerSocket(PUERTO);
+		} catch (IOException e) {
+			log.error("No se ha podido escuchar en puerto " + PUERTO);
+			System.exit(-1);
+		}
 
-        log.debug("Escucho el puerto " + PUERTO);
-        clienteSck = serverSck.accept();
-        log.debug("Cliente aceptado: " + clienteSck.getLocalSocketAddress().toString());
+		log.debug("Escucho el puerto " + PUERTO);
+		clienteSck = serverSck.accept();
+		log.debug("Cliente aceptado: " + clienteSck.getLocalSocketAddress().toString());
 
-        recibirBytes();
-        c.reciTransferencia();
+		recibirBytes();
 
-        clienteSck.close();
-        serverSck.close();
-    }
+		clienteSck.close();
+		serverSck.close();
+	}
 
-    private void recibirBytes() {
-        InputStream inpStr = null;
-        OutputStream outpStr = null;
-        try {
-            DataInputStream fluin = new DataInputStream(inpStr);
-            inpStr = clienteSck.getInputStream();
-            outpStr = clienteSck.getOutputStream();
+	/**
+	 * Bytes de hemisf1 (client) a hemisf2 (sv, this)
+	 */
+	private void recibirBytes() {
+		InputStream inpStr = null;
+		OutputStream outpStr = null;
+		try {
+			DataInputStream fluin = new DataInputStream(inpStr);
+			inpStr = clienteSck.getInputStream();
+			outpStr = clienteSck.getOutputStream();
 
-            int cantidad = fluin.readInt();
-            for (int i = 0; i < cantidad; i++) {
-                byte[] b = new byte[fluin.readInt()];
-                fluin.readFully(b);
+			int cantidad = fluin.readInt();
+			for (int i = 0; i < cantidad; i++) {
+				byte[] b = new byte[fluin.readInt()];
+				fluin.readFully(b);
 
-                c.getMgris().agregarBytes(b); // pasamos los bytes al cerebro
-            }
-        } catch (IOException ex) {
-            log.error("Al recibir bytes.");
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                outpStr.close();
-                inpStr.close();
-            } catch (IOException ex) {
-                log.error("Al cerrar Stream.");
-                Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    public boolean isOn() {
+				c.getMgris().agregarBytes(b);
+			}
+			c.reciTransferencia(); //mgris -> c
+		} catch (IOException ex) {
+			log.error("Al recibir bytes.");
+			Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				outpStr.close();
+				inpStr.close();
+			} catch (IOException ex) {
+				log.error("Al cerrar Stream.");
+				Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+	}
+
+	public boolean isOn() {
 		return on;
 	}
-    
-    public void setOn(boolean on) {
-    	this.on = on;
-    }
+
+	public void setOn(boolean on) {
+		this.on = on;
+	}
 }

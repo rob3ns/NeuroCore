@@ -59,7 +59,7 @@ public class MBlanca {
 	 */
 	public void transferencia(ArrayList<Neurona> neuronas) {
 		client = new Cliente(neuronas);
-		if (!client.isAlive()) { // dudo que este llegue a pasar
+		if (!client.isAlive()) {
 			client.start();
 		}
 	}
@@ -68,12 +68,12 @@ public class MBlanca {
 		stopClient();
 		stopServer();
 	}
-	
+
 	private void stopServer() {
 		server.setOn(false);
 		dummyClient();
 	}
-	
+
 	private void stopClient() {
 		if (client.isAlive()) {
 			try {

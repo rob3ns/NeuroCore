@@ -16,9 +16,9 @@
  */
 package Cerebro.Materia;
 
-import Cerebro.Neurona;
 import java.util.ArrayList;
-import java.util.BitSet;
+
+import Cerebro.Neurona;
 
 /**
  * @author rob3ns
@@ -32,7 +32,6 @@ public class MGris {
      * Inicializada en Cerebro
      */
     public MGris() {
-        //TODO
         neuronas = new ArrayList<Neurona>();
     }
 
@@ -44,7 +43,6 @@ public class MGris {
     public void agregarBytes(byte[] b) {
         Neurona n = new Neurona();
         n.nuevoString(b.toString());
-
         neuronas.add(n);
     }
 
@@ -57,5 +55,9 @@ public class MGris {
         ArrayList<Neurona> ret = neuronas;
         neuronas.clear();
         return ret;
+    }
+    
+    public void recibirInfo(ArrayList<Neurona> neuronas) {
+    	this.neuronas = neuronas;
     }
 }
