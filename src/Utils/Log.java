@@ -23,7 +23,7 @@ public class Log {
 
 	private void resetData() {
 		logInfo = new ArrayList<String>();
-		saveLevel = 1;
+		saveLevel = 3; //3:all, 2:-err, 1:-dbug, 0:-sc
 		skippedLines = 0;
 	}
 	
@@ -39,21 +39,21 @@ public class Log {
 
 	public String readStr(Scanner sc) {
 		String msg = sc.nextLine();
-		saveLogInfo(msg, 3);
+		saveLogInfo(msg, 1);
 		return msg;
 	}
 	public void debug(String msg) {
-		String info = buildMsg(1, msg);
-
-		System.out.println(info);
-		saveLogInfo(info, 1);
-	}
-
-	public void error(String msg) {
 		String info = buildMsg(2, msg);
 
 		System.out.println(info);
 		saveLogInfo(info, 2);
+	}
+
+	public void error(String msg) {
+		String info = buildMsg(3, msg);
+
+		System.out.println(info);
+		saveLogInfo(info, 3);
 	}
 
 	private String buildMsg(int mode, String msg) {
@@ -61,12 +61,12 @@ public class Log {
 
 		switch (mode) {
 		case 1:
-			type = "Debug";
 			break;
 		case 2:
-			type = "Error";
+			type = "Debug";
 			break;
 		case 3:
+			type = "Error";
 			break;
 		default:
 			type = "Unk";
@@ -80,7 +80,7 @@ public class Log {
 
 	private void saveLogInfo(String info, int mode) {
 		if (saveLevel >= mode) {
-			if (mode == 3) {
+			if (mode == 1) {
 				int pos = logInfo.size() - 1;
 				String s = logInfo.get(pos);
 				s += info;
