@@ -95,6 +95,7 @@ public class Servidor extends Thread {
 
 				c.getMgris().agregarBytes(b);
 			}
+			
 			c.reciTransferencia(); //mgris -> c
 		} catch (IOException ex) {
 			log.error("Al recibir bytes.");

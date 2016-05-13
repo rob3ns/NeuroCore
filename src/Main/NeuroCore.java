@@ -50,7 +50,7 @@ public class NeuroCore {
 	}
 
 	private void SelHemisferio() {
-		while (!core.getHemis().ishDerecho() && !core.getHemis().ishIzquierdo()) {
+		while (!core.getHemis().isIniciado()) {
 			log.print("Selecciona lado (derecha-izquierda):");
 			String st = sc.nextLine().toLowerCase();
 			

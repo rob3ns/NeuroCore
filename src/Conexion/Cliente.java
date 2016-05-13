@@ -47,9 +47,6 @@ public class Cliente extends Thread {
 		log = new Log(this.getClass());
 	}
 
-	/**
-	 * Cliente le pasa info de neuronas al servidor
-	 */
 	@Override
 	public void run() {
 		try {
@@ -82,7 +79,7 @@ public class Cliente extends Thread {
 			inpStr = clienteSck.getInputStream();
 			outpStr = clienteSck.getOutputStream();
 
-			fluout.write(neuronas.size()); // Servidor necesita la cantidad
+			fluout.write(neuronas.size());
 			for (Neurona n : Caster.safeIterable(neuronas)) {
 				byte[] b = Caster.bitSetToByteArray(n.getNucleo());
 

@@ -47,6 +47,10 @@ public class Hemisferio {
     public boolean ishIzquierdo() {
         return hIzquierdo;
     }
+    
+    public boolean isIniciado() {
+    	return hDerecho | hIzquierdo;
+    }
 
     public void sethIzquierdo(boolean hIzquierdo) {
         this.hIzquierdo = hIzquierdo;
