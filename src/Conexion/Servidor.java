@@ -89,14 +89,16 @@ public class Servidor extends Thread {
 			outpStr = clienteSck.getOutputStream();
 
 			int cantidad = fluin.readInt();
-			for (int i = 0; i < cantidad; i++) {
-				byte[] b = new byte[fluin.readInt()];
-				fluin.readFully(b);
-
-				c.getMgris().agregarBytes(b);
+			if (cantidad > 0) {
+				for (int i = 0; i < cantidad; i++) {
+					byte[] b = new byte[fluin.readInt()];
+					fluin.readFully(b);
+	
+					c.getMgris().agregarBytes(b);
+				}
+				
+				c.reciTransferencia(); //mgris -> c
 			}
-			
-			c.reciTransferencia(); //mgris -> c
 		} catch (IOException ex) {
 			log.error("Al recibir bytes.");
 			Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);

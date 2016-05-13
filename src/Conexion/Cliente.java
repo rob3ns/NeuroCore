@@ -36,7 +36,7 @@ import Utils.Log;
  */
 public class Cliente extends Thread {
 
-	private static final String HOST = "localhost";
+	private static final String HOST = "localhost"; //TODO
 	private static final int PUERTO = 5000;
 	private Socket clienteSck;
 	private final ArrayList<Neurona> neuronas;
@@ -52,7 +52,7 @@ public class Cliente extends Thread {
 		try {
 			iniciarCliente();
 		} catch (IOException ex) {
-			Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+			log.error("No se ha podido iniciar el cliente.");
 		}
 	}
 
@@ -68,6 +68,7 @@ public class Cliente extends Thread {
 		}
 
 		enviarBytes();
+		
 		clienteSck.close();
 	}
 
@@ -79,23 +80,25 @@ public class Cliente extends Thread {
 			inpStr = clienteSck.getInputStream();
 			outpStr = clienteSck.getOutputStream();
 
-			fluout.write(neuronas.size());
-			for (Neurona n : Caster.safeIterable(neuronas)) {
-				byte[] b = Caster.bitSetToByteArray(n.getNucleo());
-
-				fluout.write(b.length);
-				fluout.write(b);
+			if (!neuronas.isEmpty()) {
+				fluout.write(neuronas.size());
+				for (Neurona n : Caster.safeIterable(neuronas)) {
+					byte[] b = Caster.bitSetToByteArray(n.getNucleo());
+	
+					fluout.write(b.length);
+					fluout.write(b);
+				}
+			} else {
+				fluout.write(Integer.MIN_VALUE);
 			}
 		} catch (IOException ex) {
-			log.error("Error del cliente al enviar bytes.");
-			Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+			log.error("Al enviar bytes.");
 		} finally {
 			try {
 				inpStr.close();
 				outpStr.close();
 			} catch (IOException ex) {
-				log.error("Error del cliente al cerrar Stream.");
-				Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+				log.error("Al cerrar stream.");
 			}
 		}
 	}

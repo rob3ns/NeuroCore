@@ -71,11 +71,12 @@ public class MBlanca {
 
 	private void stopServer() {
 		server.setOn(false);
-		dummyClient();
+		server.interrupt();
+		//dummyClient();
 	}
 
 	private void stopClient() {
-		if (client.isAlive()) {
+		if (client != null && client.isAlive()) {
 			try {
 				client.join();
 			} catch (InterruptedException e) {
