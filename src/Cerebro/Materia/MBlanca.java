@@ -20,7 +20,10 @@ import Cerebro.Cerebro;
 import Cerebro.Neurona;
 import Conexion.Cliente;
 import Conexion.Servidor;
+
 import java.util.ArrayList;
+
+import Utils.Log;
 
 /**
  * @author rob3ns
@@ -28,33 +31,92 @@ import java.util.ArrayList;
 // Conex entre neuronas -axones - sockets y demas entre hemisferios
 public class MBlanca {
 
-    private Cliente cl;
-    private Servidor sv;
+	private Cliente client;
+	private Servidor server;
+	private Log log;
 
-    /**
-     * Inicializada en Cerebro
-     */
-    public MBlanca(Cerebro c) {
-        iniciarMBlanca(c);
-    }
+	/**
+	 * Inicializada en Cerebro
+	 */
+	public MBlanca(Cerebro c) {
+		iniciarMBlanca(c);
+	}
 
-    /**
-     * Servidor a la espera del otro hemisf
-     * @param c Cerebro
-     */
-    private void iniciarMBlanca(Cerebro c) {
-        sv = new Servidor(c);
-        sv.start();
-    }
+	/**
+	 * Servidor a la espera del otro hemisf
+	 * @param c Cerebro
+	 */
+	private void iniciarMBlanca(Cerebro c) {
+		log = new Log(this.getClass());
 
-    /**
-     * Transfer. al otro hemisf
-     * @param neuronas Lo que pasas al otro, Array
-     */
-    public void transferencia(ArrayList<Neurona> neuronas) {
-        cl = new Cliente(neuronas);
-        if (!cl.isAlive()) { // dudo que este llegue a pasar
-            cl.start();
-        }
-    }
+		server = new Servidor(c);
+		server.start();
+	}
+
+	/**
+	 * Transfer. al otro hemisf
+	 * @param neuronas Lo que pasas al otro, Array
+	 */
+	public void transferencia(ArrayList<Neurona> neuronas) {
+		client = new Cliente(neuronas);
+		if (!client.isAlive()) { // dudo que este llegue a pasar
+			client.start();
+		}
+	}
+
+	public void stop() {
+		stopClient();
+		stopServer();
+	}
+	
+	private void stopServer() {
+		server.setOn(false);
+		dummyClient();
+	}
+	
+	private void stopClient() {
+		if (client.isAlive()) {
+			try {
+				client.join();
+			} catch (InterruptedException e) {
+				log.error("In general stop, client join.");
+			}
+		}
+	}
+
+	/**
+	 * Server waiting response
+	 */
+	private void dummyClient() {
+		if (server.isAlive()) {
+			client = new Cliente(new ArrayList<Neurona>());
+			client.start();
+
+			if (client.isAlive()) {
+				try {
+					client.join();
+				} catch (InterruptedException e) {
+					log.error("Client 2 failed while stopping server.");
+				}
+			}
+		} else {
+			log.debug("Server not alive, dummy client.");
+		}
+	}
+
+	public Cliente getClient() {
+		return client;
+	}
+
+	public void setClient(Cliente cl) {
+		this.client = cl;
+	}
+
+	public Servidor getServer() {
+		return server;
+	}
+
+	public void setServer(Servidor sv) {
+		this.server = sv;
+	}
 }

@@ -27,17 +27,21 @@ import java.util.ArrayList;
 public class Cerebro {
 
     private ArrayList<Neurona> neuronas;
-    private MBlanca mblanca; // conecta neuronas (axones) entre hemisferios y lobulos
-    private MGris mgris; // procesa info
+    private MBlanca matBlanca; // conecta neuronas (axones) entre hemisferios y lobulos
+    private MGris matGris; // procesa info
     private Hemisferio hemis;
 
     public Cerebro() {
         this.neuronas = new ArrayList<Neurona>();
-        this.mblanca = new MBlanca(this);
-        this.mgris = new MGris();
+        this.matBlanca = new MBlanca(this);
+        this.matGris = new MGris();
         this.hemis = new Hemisferio();
     }
 
+    public String generarRespuesta(String s) {
+    	String res = "";
+    	return res;
+    }
     public ArrayList<Neurona> getNeuronas() {
         return neuronas;
     }
@@ -47,19 +51,19 @@ public class Cerebro {
     }
 
     public MBlanca getMblanca() {
-        return mblanca;
+        return matBlanca;
     }
 
     public void setMblanca(MBlanca mblanca) {
-        this.mblanca = mblanca;
+        this.matBlanca = mblanca;
     }
 
     public MGris getMgris() {
-        return mgris;
+        return matGris;
     }
 
     public void setMgris(MGris mgris) {
-        this.mgris = mgris;
+        this.matGris = mgris;
     }
 
     public Hemisferio getHemis() {
@@ -86,7 +90,7 @@ public class Cerebro {
      */
     public void transferHemisferioOpuesto() {
         //TODO: determinar que neuronas son las que se envian
-        this.mblanca.transferencia(neuronas);
+        this.matBlanca.transferencia(neuronas);
     }
     
     /**
@@ -94,6 +98,10 @@ public class Cerebro {
      * Llamada en servidor
      */
     public void reciTransferencia() {
-        this.neuronas.addAll(mgris.pasarInfo());
+        this.neuronas.addAll(matGris.pasarInfo());
+    }
+    
+    public void stop() {
+    	matBlanca.stop();
     }
 }

@@ -71,6 +71,16 @@ public class NeuroCore {
 		} else {
 			log.print("Has seleccionado el lado derecho. Hemisferio izquierdo en marcha.");
 		}
+		
+		String input = "";
+		while (!input.equals("stop")) {
+			log.print("Yo: ");
+			input = sc.nextLine();
+			
+			log.print("NC: " + core.generarRespuesta(input) + "\n"); //TODO
+		}
+		
+		stopCerebro();
 	}
 
 	private void iniciarCerebro() {
@@ -80,7 +90,8 @@ public class NeuroCore {
 
 	private void stopCerebro() {
 		log.print("Finalizando...");
-		//core.stop();
+		log.close();
+		core.stop();
 	}
 
 	private void driverDatabase() {

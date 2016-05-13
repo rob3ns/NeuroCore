@@ -37,18 +37,20 @@ public class Servidor extends Thread {
     private static final int PUERTO = 5000;
     private ServerSocket serverSck;
     private Socket clienteSck;
+    private boolean on;
     private Cerebro c;
     private Log log;
 
     public Servidor(Cerebro c) {
         this.c = c;
         log = new Log(this.getClass());
+        on = true;
     }
 
     @Override
     public void run() {
         try {
-            while (true) {
+            while (on) {
                 iniciarServer();
             }
         } catch (IOException ex) {
@@ -57,7 +59,7 @@ public class Servidor extends Thread {
         }
     }
 
-    private void iniciarServer() throws IOException {
+	private void iniciarServer() throws IOException {
         try {
             serverSck = new ServerSocket(PUERTO);
         } catch (IOException e) {
@@ -103,5 +105,13 @@ public class Servidor extends Thread {
                 Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    public boolean isOn() {
+		return on;
+	}
+    
+    public void setOn(boolean on) {
+    	this.on = on;
     }
 }

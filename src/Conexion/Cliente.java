@@ -83,7 +83,7 @@ public class Cliente extends Thread {
             outpStr = clienteSck.getOutputStream();
 
             fluout.write(neuronas.size()); // Servidor necesita la cantidad
-            for (Neurona n : neuronas) {
+            for (Neurona n : Caster.safeIterable(neuronas)) {
                 byte[] b = Caster.bitSetToByteArray(n.getNucleo());
 
                 fluout.write(b.length);
