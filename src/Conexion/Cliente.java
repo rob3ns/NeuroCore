@@ -36,70 +36,70 @@ import Utils.Log;
  */
 public class Cliente extends Thread {
 
-    private static final String HOST = "localhost";
-    private static final int PUERTO = 5000;
-    private Socket clienteSck;
-    private final ArrayList<Neurona> neuronas;
-    private Log log;
+	private static final String HOST = "localhost";
+	private static final int PUERTO = 5000;
+	private Socket clienteSck;
+	private final ArrayList<Neurona> neuronas;
+	private Log log;
 
-    public Cliente(ArrayList<Neurona> info) {
-        neuronas = info;
-        log = new Log(this.getClass());
-    }
+	public Cliente(ArrayList<Neurona> info) {
+		neuronas = info;
+		log = new Log(this.getClass());
+	}
 
-    /**
-     * Cliente le pasa info de neuronas al servidor
-     */
-    @Override
-    public void run() {
-        try {
-            iniciarCliente();
-        } catch (IOException ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+	/**
+	 * Cliente le pasa info de neuronas al servidor
+	 */
+	@Override
+	public void run() {
+		try {
+			iniciarCliente();
+		} catch (IOException ex) {
+			Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 
-    private void iniciarCliente() throws IOException {
-        try {
-            clienteSck = new Socket(HOST, PUERTO);
-        } catch (UnknownHostException e) {
-            System.out.println("Unknown host: " + HOST);
-            System.exit(1);
-        } catch (IOException e) {
-            System.out.println("No I/O");
-            System.exit(1);
-        }
+	private void iniciarCliente() throws IOException {
+		try {
+			clienteSck = new Socket(HOST, PUERTO);
+		} catch (UnknownHostException e) {
+			log.error("Unknown host: " + HOST);
+			System.exit(1);
+		} catch (IOException e) {
+			log.error("No I/O");
+			System.exit(1);
+		}
 
-        enviarBytes();
-        clienteSck.close();
-    }
+		enviarBytes();
+		clienteSck.close();
+	}
 
-    private void enviarBytes() {
-        InputStream inpStr = null;
-        OutputStream outpStr = null;
-        try {
-            DataOutputStream fluout = new DataOutputStream(outpStr);
-            inpStr = clienteSck.getInputStream();
-            outpStr = clienteSck.getOutputStream();
+	private void enviarBytes() {
+		InputStream inpStr = null;
+		OutputStream outpStr = null;
+		try {
+			DataOutputStream fluout = new DataOutputStream(outpStr);
+			inpStr = clienteSck.getInputStream();
+			outpStr = clienteSck.getOutputStream();
 
-            fluout.write(neuronas.size()); // Servidor necesita la cantidad
-            for (Neurona n : Caster.safeIterable(neuronas)) {
-                byte[] b = Caster.bitSetToByteArray(n.getNucleo());
+			fluout.write(neuronas.size()); // Servidor necesita la cantidad
+			for (Neurona n : Caster.safeIterable(neuronas)) {
+				byte[] b = Caster.bitSetToByteArray(n.getNucleo());
 
-                fluout.write(b.length);
-                fluout.write(b);
-            }
-        } catch (IOException ex) {
-            log.error("Error del cliente al enviar bytes.");
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                inpStr.close();
-                outpStr.close();
-            } catch (IOException ex) {
-                log.error("Error del cliente al cerrar Stream.");
-                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+				fluout.write(b.length);
+				fluout.write(b);
+			}
+		} catch (IOException ex) {
+			log.error("Error del cliente al enviar bytes.");
+			Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				inpStr.close();
+				outpStr.close();
+			} catch (IOException ex) {
+				log.error("Error del cliente al cerrar Stream.");
+				Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+	}
 }
