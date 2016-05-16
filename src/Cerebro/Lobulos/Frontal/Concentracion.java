@@ -23,4 +23,7 @@ package Cerebro.Lobulos.Frontal;
  */
 public class Concentracion {
     
+    public Concentracion() {
+        
+    }
 }

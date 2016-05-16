@@ -21,7 +21,6 @@ import Conexion.Database;
 
 import java.util.Scanner;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import Utils.Log;
 

@@ -18,10 +18,27 @@
 package Cerebro.Lobulos;
 
 // movimiento, resolución problemas, concentración, pensamiento
+
+import Cerebro.Lobulos.Frontal.Concentracion;
+import Cerebro.Lobulos.Frontal.Movimiento;
+import Cerebro.Lobulos.Frontal.Personalidad;
+import Cerebro.Lobulos.Frontal.ResProblemas;
+
 // personalidad, humor
 /**
  * @author rob3ns
  */
 public class LFrontal extends Lobulo{
     
+    private Concentracion concentr;
+    private Movimiento mov;
+    private Personalidad pers;
+    private ResProblemas resProblemas;
+    
+    public LFrontal() {
+        concentr = new Concentracion();
+        mov = new Movimiento();
+        pers = new Personalidad();
+        resProblemas = new ResProblemas();
+    }
 }

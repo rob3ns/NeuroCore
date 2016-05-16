@@ -22,4 +22,7 @@ package Cerebro.Lobulos.Temporal;
  */
 public class Lenguaje {
     
+    public Lenguaje() {
+        
+    }
 }

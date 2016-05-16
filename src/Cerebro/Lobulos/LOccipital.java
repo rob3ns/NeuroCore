@@ -18,9 +18,20 @@
 package Cerebro.Lobulos;
 
 // vision, percepción
+
+import Cerebro.Lobulos.Occipital.Vision;
+import Cerebro.Lobulos.Parietal.PercepcionPar;
+
 /**
  * @author rob3ns
  */
 public class LOccipital extends Lobulo{
     
+    private PercepcionPar percep;
+    private Vision vision;
+    
+    public LOccipital() {
+        percep = new PercepcionPar();
+        vision = new Vision();
+    }
 }

@@ -18,10 +18,30 @@
 package Cerebro.Lobulos;
 
 // Sensaciones, lenguaje, percepción
+
+import Cerebro.Lobulos.Parietal.Atencion;
+import Cerebro.Lobulos.Parietal.ConcienciaCorporal;
+import Cerebro.Lobulos.Parietal.PercepcionPar;
+import Cerebro.Lobulos.Parietal.Sensaciones;
+import Cerebro.Lobulos.Temporal.Lenguaje;
+
 // Conciencia corporal, atención
 /**
  * @author rob3ns
  */
 public class LParietal extends Lobulo{
     
+    private Atencion atencion;
+    private ConcienciaCorporal conCorp;
+    private Lenguaje lenguaje;
+    private PercepcionPar percepcion; //TODO: l occip
+    private Sensaciones sensaciones;
+    
+    public LParietal() {
+        atencion = new Atencion();
+        conCorp = new ConcienciaCorporal();
+        lenguaje = new Lenguaje();
+        percepcion = new PercepcionPar();
+        sensaciones = new Sensaciones();
+    }
 }

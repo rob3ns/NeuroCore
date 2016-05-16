@@ -22,4 +22,7 @@ package Cerebro.Lobulos.Frontal;
  */
 public class ResProblemas {
     
+    public ResProblemas() {
+        
+    }
 }

@@ -22,4 +22,7 @@ package Cerebro.Lobulos.Occipital;
  */
 public class Vision {
     
+    public Vision() {
+        
+    }
 }

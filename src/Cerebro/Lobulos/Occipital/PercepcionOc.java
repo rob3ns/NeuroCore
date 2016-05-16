@@ -15,14 +15,16 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package Cerebro.Lobulos.Temporal;
+package Cerebro.Lobulos.Occipital;
+
+import Cerebro.Lobulos.Percepcion;
 
 /**
  * @author rob3ns
  */
-public class Memoria {
+public class PercepcionOc extends Percepcion{
     
-    public Memoria() {
+    public PercepcionOc() {
         
     }
 }

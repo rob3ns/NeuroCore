@@ -15,11 +15,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package Cerebro.Lobulos.Parietal;
+package Cerebro.Lobulos;
 
 /**
  * @author rob3ns
  */
 public class Percepcion {
-    
+
+    public Percepcion() {
+        
+    }
 }

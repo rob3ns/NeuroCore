@@ -15,11 +15,13 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package Cerebro.Lobulos.Occipital;
+package Cerebro.Lobulos.Parietal;
+
+import Cerebro.Lobulos.Percepcion;
 
 /**
  * @author rob3ns
  */
-public class Percepcion {
+public class PercepcionPar extends Percepcion {
     
 }
