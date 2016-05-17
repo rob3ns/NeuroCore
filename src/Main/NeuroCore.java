@@ -81,7 +81,7 @@ public class NeuroCore {
 
 	private void iniciarCerebro() {
 		log.println("Inicializando...");
-		core = new Cerebro();
+		core = new Cerebro(db);
 	}
 
 	private void stopCerebro() {

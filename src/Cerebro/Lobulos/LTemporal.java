@@ -19,9 +19,12 @@ package Cerebro.Lobulos;
 
 // Audición, lenguaje, memoria
 
+import Cerebro.Cerebro;
 import Cerebro.Lobulos.Temporal.Audicion;
 import Cerebro.Lobulos.Temporal.Lenguaje;
-import Cerebro.Lobulos.Temporal.Memoria;
+import Cerebro.Lobulos.Temporal.Memoria.Memoria;
+import Cerebro.Lobulos.Temporal.Memoria.MemoriaC;
+import Cerebro.Lobulos.Temporal.Memoria.MemoriaL;
 
 /**
  * @author rob3ns
@@ -30,11 +33,13 @@ public class LTemporal extends Lobulo{
     
     private Audicion audicion;
     private Lenguaje lenguaje;
-    private Memoria memoria;
+    private MemoriaC memC;
+    private MemoriaL memL;
     
-    public LTemporal() {
+    public LTemporal(Cerebro c) {
         audicion = new Audicion();
         lenguaje = new Lenguaje();
-        memoria = new Memoria();
+        memC = new MemoriaC(c);
+        memL = new MemoriaL(c);
     }
 }

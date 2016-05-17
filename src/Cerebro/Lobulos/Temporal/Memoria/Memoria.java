@@ -15,14 +15,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package Cerebro.Lobulos.Temporal;
+package Cerebro.Lobulos.Temporal.Memoria;
+
 
 /**
  * @author rob3ns
  */
-public class Memoria {
+public interface Memoria {
     
-    public Memoria() {
-        
-    }
+	void encode(String s);
+    
 }

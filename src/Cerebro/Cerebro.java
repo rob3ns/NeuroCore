@@ -17,8 +17,14 @@
 package Cerebro;
 
 import Cerebro.Hemisferios.Hemisferio;
+import Cerebro.Lobulos.LFrontal;
+import Cerebro.Lobulos.LOccipital;
+import Cerebro.Lobulos.LParietal;
+import Cerebro.Lobulos.LTemporal;
 import Cerebro.Materia.MBlanca;
 import Cerebro.Materia.MGris;
+import Conexion.Database;
+
 import java.util.ArrayList;
 
 /**
@@ -30,12 +36,25 @@ public class Cerebro {
 	private MBlanca matBlanca; // conecta neuronas (axones) entre hemisferios y lobulos
 	private MGris matGris; // procesa info
 	private Hemisferio hemis;
+	
+	private Database db;
+	
+	//Lobulos
+	private LTemporal lTemp;
+	private LOccipital lOcc;
+	private LParietal lPar;
+	private LFrontal lFron;
 
-	public Cerebro() {
-		this.neuronas = new ArrayList<Neurona>();
-		this.matBlanca = new MBlanca(this);
-		this.matGris = new MGris();
-		this.hemis = new Hemisferio();
+	public Cerebro(Database db) {
+		neuronas = new ArrayList<Neurona>();
+		matBlanca = new MBlanca(this);
+		matGris = new MGris();
+		hemis = new Hemisferio();
+		lTemp = new LTemporal(this);
+		lOcc = new LOccipital();
+		lPar = new LParietal();
+		lFron = new LFrontal();
+		this.db = db;
 	}
 
 	public String generarRespuesta(String s) {
@@ -105,4 +124,13 @@ public class Cerebro {
 	 public void stop() {
 		 matBlanca.stop();
 	 }
+
+	public Database getDb() {
+		return db;
+	}
+
+	public void setDb(Database db) {
+		this.db = db;
+	}
+	 
 }
