@@ -16,6 +16,11 @@
  */
 package Cerebro;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import Utils.Caster;
 import Cerebro.Hemisferios.Hemisferio;
 import Cerebro.Lobulos.LFrontal;
 import Cerebro.Lobulos.LOccipital;
@@ -25,14 +30,12 @@ import Cerebro.Materia.MBlanca;
 import Cerebro.Materia.MGris;
 import Conexion.Database;
 
-import java.util.ArrayList;
-
 /**
  * @author rob3ns
  */
 public class Cerebro {
 
-	private ArrayList<Neurona> neuronas;
+	private Map<Integer, Neurona> neuronas;
 	private MBlanca matBlanca; // conecta neuronas (axones) entre hemisferios y lobulos
 	private MGris matGris; // procesa info
 	private Hemisferio hemis;
@@ -46,7 +49,7 @@ public class Cerebro {
 	private LFrontal lFron;
 
 	public Cerebro(Database db) {
-		neuronas = new ArrayList<Neurona>();
+		neuronas = new LinkedHashMap<Integer, Neurona>();
 		matBlanca = new MBlanca(this);
 		matGris = new MGris();
 		hemis = new Hemisferio();
@@ -62,11 +65,12 @@ public class Cerebro {
 		//TODO:
 		return res;
 	}
-	public ArrayList<Neurona> getNeuronas() {
+
+	public Map<Integer, Neurona> getNeuronas() {
 		return neuronas;
 	}
 
-	public void setNeuronas(ArrayList<Neurona> neuronas) {
+	public void setNeuronas(Map<Integer, Neurona> neuronas) {
 		this.neuronas = neuronas;
 	}
 
@@ -118,7 +122,21 @@ public class Cerebro {
 	  * Llamada en servidor
 	  */
 	 public void reciTransferencia() {
-		 this.neuronas.addAll(matGris.pasarInfo());
+		 Integer key = calcLastKey();
+		 
+		 ArrayList<Neurona> info = matGris.pasarInfo();
+		 for (Neurona neu : info) {
+			 neuronas.put(key++, neu);
+		 }
+	 }
+	 
+	 private Integer calcLastKey() {
+		 Integer num = 0;
+		 for (Integer i : neuronas.keySet()) {
+			 num = i;
+		 }
+
+		 return num;
 	 }
 	 
 	 public void stop() {

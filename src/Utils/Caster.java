@@ -2,6 +2,9 @@ package Utils;
 
 import java.util.BitSet;
 import java.util.Collections;
+import java.util.Map;
+
+import Cerebro.Neurona;
 
 /**
  * @author rob3ns
@@ -54,5 +57,9 @@ public class Caster {
 	//Others
 	public static <T> Iterable<T> safeIterable(Iterable<T> it) {
 		return it == null ? Collections.<T>emptyList() : it;
+	}
+
+	public static Map<Integer, Neurona> safeIterable(Map<Integer, Neurona> neuronas) {
+		return neuronas == null ? Collections.<Integer, Neurona>emptyMap() : neuronas;
 	}
 }

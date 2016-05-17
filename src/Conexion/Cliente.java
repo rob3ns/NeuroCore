@@ -16,18 +16,16 @@
  */
 package Conexion;
 
-import Cerebro.Neurona;
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import Cerebro.Neurona;
 import Utils.Caster;
 import Utils.Log;
 
@@ -39,10 +37,10 @@ public class Cliente extends Thread {
 	private static final String HOST = "localhost"; //TODO
 	private static final int PUERTO = 5000;
 	private Socket clienteSck;
-	private final ArrayList<Neurona> neuronas;
+	private final Map<Integer, Neurona> neuronas;
 	private Log log;
 
-	public Cliente(ArrayList<Neurona> info) {
+	public Cliente(Map<Integer, Neurona> info) {
 		neuronas = info;
 		log = new Log(this.getClass());
 	}
@@ -82,8 +80,8 @@ public class Cliente extends Thread {
 
 			if (!neuronas.isEmpty()) {
 				fluout.write(neuronas.size());
-				for (Neurona n : Caster.safeIterable(neuronas)) {
-					byte[] b = Caster.bitSetToByteArray(n.getNucleo());
+				for (Entry<Integer, Neurona> n : neuronas.entrySet()) {
+					byte[] b = Caster.bitSetToByteArray(n.getValue().getNucleo());
 	
 					fluout.write(b.length);
 					fluout.write(b);

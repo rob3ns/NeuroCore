@@ -16,13 +16,13 @@
  */
 package Cerebro.Materia;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import Cerebro.Cerebro;
 import Cerebro.Neurona;
 import Conexion.Cliente;
 import Conexion.Servidor;
-
-import java.util.ArrayList;
-
 import Utils.Log;
 
 /**
@@ -57,7 +57,7 @@ public class MBlanca {
 	 * Transfer. al otro hemisf
 	 * @param neuronas Lo que pasas al otro, Array
 	 */
-	public void transferencia(ArrayList<Neurona> neuronas) {
+	public void transferencia(Map<Integer, Neurona> neuronas) {
 		client = new Cliente(neuronas);
 		if (!client.isAlive()) {
 			client.start();
@@ -90,7 +90,7 @@ public class MBlanca {
 	 */
 	private void dummyClient() {
 		if (server.isAlive()) {
-			client = new Cliente(new ArrayList<Neurona>());
+			client = new Cliente(new LinkedHashMap<Integer, Neurona>());
 			client.start();
 
 			if (client.isAlive()) {
