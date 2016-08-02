@@ -39,8 +39,10 @@ public class Cliente extends Thread {
 	private Socket clienteSck;
 	private final Map<Integer, Neurona> neuronas;
 	private Log log;
+	private String word;
 
-	public Cliente(Map<Integer, Neurona> info) {
+	public Cliente(String word, Map<Integer, Neurona> info) {
+		this.word = word;
 		neuronas = info;
 		log = new Log(this.getClass());
 	}
@@ -86,9 +88,11 @@ public class Cliente extends Thread {
 					fluout.write(b.length);
 					fluout.write(b);
 				}
+				fluout.writeUTF(word);
 			} else { // test
 				int n = 0;
 				fluout.write(n);
+				fluout.writeUTF("");
 			}
 		} catch (IOException ex) {
 			log.error("Al enviar bytes.");

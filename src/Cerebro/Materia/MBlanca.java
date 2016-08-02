@@ -57,8 +57,8 @@ public class MBlanca {
 	 * Transfer. al otro hemisf
 	 * @param neuronas Lo que pasas al otro, Array
 	 */
-	public void transferencia(Map<Integer, Neurona> neuronas) {
-		client = new Cliente(neuronas);
+	public void transferencia(String word, Map<Integer, Neurona> neuronas) {
+		client = new Cliente(word, neuronas);
 		if (!client.isAlive()) {
 			client.start();
 		}
@@ -90,7 +90,7 @@ public class MBlanca {
 	 */
 	private void dummyClient() {
 		if (server.isAlive()) {
-			client = new Cliente(new LinkedHashMap<Integer, Neurona>());
+			client = new Cliente("" ,new LinkedHashMap<Integer, Neurona>());
 			client.start();
 
 			if (client.isAlive()) {

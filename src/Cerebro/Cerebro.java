@@ -17,10 +17,10 @@
 package Cerebro;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import Utils.Caster;
 import Cerebro.Hemisferios.Hemisferio;
 import Cerebro.Lobulos.LFrontal;
 import Cerebro.Lobulos.LOccipital;
@@ -35,21 +35,20 @@ import Conexion.Database;
  */
 public class Cerebro {
 
-	private Map<Integer, Neurona> neuronas;
+	private Map<String, LinkedHashMap<Integer, Neurona>> neuronas;
 	private MBlanca matBlanca; // conecta neuronas (axones) entre hemisferios y lobulos
 	private MGris matGris; // procesa info
 	private Hemisferio hemis;
 	
 	private Database db;
 	
-	//Lobulos
 	private LTemporal lTemp;
 	private LOccipital lOcc;
 	private LParietal lPar;
 	private LFrontal lFron;
 
 	public Cerebro(Database db) {
-		neuronas = new LinkedHashMap<Integer, Neurona>();
+		neuronas = new HashMap<String, LinkedHashMap<Integer, Neurona>>();
 		matBlanca = new MBlanca(this);
 		matGris = new MGris();
 		hemis = new Hemisferio();
@@ -66,12 +65,16 @@ public class Cerebro {
 		return res;
 	}
 
-	public Map<Integer, Neurona> getNeuronas() {
+	public Map<String, LinkedHashMap<Integer, Neurona>> getNeuronas() {
 		return neuronas;
 	}
 
-	public void setNeuronas(Map<Integer, Neurona> neuronas) {
+	public void setNeuronas(Map<String, LinkedHashMap<Integer, Neurona>> neuronas) {
 		this.neuronas = neuronas;
+	}
+	
+	public LinkedHashMap<Integer, Neurona> getNeuronasByWord(String word) {
+		return neuronas.get(word);
 	}
 
 	public MBlanca getMblanca() {
@@ -112,27 +115,28 @@ public class Cerebro {
 	 * Pasar datos al otro hemisf (cl -> serv)
 	 * Llamada: TODO
 	 */
-	 public void transferHemisferioOpuesto() {
+	 public void transferHemisferioOpuesto(String word) {
 		 //TODO: determinar que neuronas son las que se envian
-		 this.matBlanca.transferencia(neuronas);
+		 this.matBlanca.transferencia(word, getNeuronasByWord(word));
 	 }
 
 	 /**
 	  * Recibir datos del otro hemisf
 	  * Llamada en servidor
 	  */
-	 public void reciTransferencia() {
-		 Integer key = calcLastKey();
+	 public void reciTransferencia(String word) {
+		 LinkedHashMap<Integer, Neurona> wordNeuronas = getNeuronasByWord(word);
+		 Integer key = calcLastKey(wordNeuronas); //TODO: wordNeuronas.size -1 ?
 		 
 		 ArrayList<Neurona> info = matGris.pasarInfo();
 		 for (Neurona neu : info) {
-			 neuronas.put(key++, neu);
+			 wordNeuronas.put(key++, neu);
 		 }
 	 }
 	 
-	 private Integer calcLastKey() {
+	 private Integer calcLastKey(LinkedHashMap<Integer, Neurona> wordNeuronas) {
 		 Integer num = 0;
-		 for (Integer i : neuronas.keySet()) {
+		 for (Integer i : wordNeuronas.keySet()) {
 			 num = i;
 		 }
 

@@ -97,7 +97,8 @@ public class Servidor extends Thread {
 					c.getMgris().agregarBytes(b);
 				}
 				
-				c.reciTransferencia(); //mgris -> c
+				String word = fluin.readUTF();
+				c.reciTransferencia(word); //mgris -> c
 			}
 		} catch (IOException ex) {
 			log.error("Al recibir bytes.");
