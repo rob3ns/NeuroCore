@@ -19,6 +19,7 @@ package Cerebro;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import Cerebro.Hemisferios.Hemisferio;
@@ -39,9 +40,9 @@ public class Cerebro {
 	private MBlanca matBlanca; // conecta neuronas (axones) entre hemisferios y lobulos
 	private MGris matGris; // procesa info
 	private Hemisferio hemis;
-	
+
 	private Database db;
-	
+
 	private LTemporal lTemp;
 	private LOccipital lOcc;
 	private LParietal lPar;
@@ -72,7 +73,7 @@ public class Cerebro {
 	public void setNeuronas(Map<String, LinkedHashMap<Integer, Neurona>> neuronas) {
 		this.neuronas = neuronas;
 	}
-	
+
 	public LinkedHashMap<Integer, Neurona> getNeuronasByWord(String word) {
 		return neuronas.get(word);
 	}
@@ -115,37 +116,91 @@ public class Cerebro {
 	 * Pasar datos al otro hemisf (cl -> serv)
 	 * Llamada: TODO
 	 */
-	 public void transferHemisferioOpuesto(String word) {
-		 //TODO: determinar que neuronas son las que se envian
-		 this.matBlanca.transferencia(word, getNeuronasByWord(word));
-	 }
+	public void transferHemisferioOpuesto(String word) {
+		//TODO: determinar que neuronas son las que se envian
+		this.matBlanca.transferencia(word, getNeuronasByWord(word));
+	}
 
-	 /**
-	  * Recibir datos del otro hemisf
-	  * Llamada en servidor
-	  */
-	 public void reciTransferencia(String word) {
-		 LinkedHashMap<Integer, Neurona> wordNeuronas = getNeuronasByWord(word);
-		 Integer key = calcLastKey(wordNeuronas); //TODO: wordNeuronas.size -1 ?
-		 
-		 ArrayList<Neurona> info = matGris.pasarInfo();
-		 for (Neurona neu : info) {
-			 wordNeuronas.put(key++, neu);
-		 }
-	 }
-	 
-	 private Integer calcLastKey(LinkedHashMap<Integer, Neurona> wordNeuronas) {
-		 Integer num = 0;
-		 for (Integer i : wordNeuronas.keySet()) {
-			 num = i;
-		 }
+	/**
+	 * Recibir datos del otro hemisf
+	 * Llamada en servidor
+	 */
+	public void reciTransferencia(String word) {
+		LinkedHashMap<Integer, Neurona> wordNeuronas = getNeuronasByWord(word);
+		Integer key = calcLastKey(wordNeuronas);
 
-		 return num;
-	 }
-	 
-	 public void stop() {
-		 matBlanca.stop();
-	 }
+		ArrayList<Neurona> info = matGris.pasarInfo();
+		for (Neurona neu : info) {
+			wordNeuronas.put(key++, neu);
+		}
+	}
+
+	private Integer calcLastKey(LinkedHashMap<Integer, Neurona> wordNeuronas) {
+		Integer num = 0;
+		for (Integer i : wordNeuronas.keySet()) {
+			num = i;
+		}
+
+		return num;
+	}
+
+	private Integer calcMaxKey(LinkedHashMap<Integer, Neurona> wordNeuronas) {
+		Integer max = Integer.MIN_VALUE;
+		for (Integer i : wordNeuronas.keySet()) {
+			if (i > max) {
+				max = i;
+			}
+		}
+		return max;
+	}
+	
+	private Integer calcMinKey(LinkedHashMap<Integer, Neurona> wordNeuronas) {
+		Integer min = Integer.MAX_VALUE;
+		for (Integer i : wordNeuronas.keySet()) {
+			if (i < min) {
+				min = i;
+			}
+		}
+		return min;
+	}
+	
+	private LinkedList<Neurona> getOrderedNeuByKey(LinkedHashMap<Integer, Neurona> wordNeuronas) {
+		LinkedList<Neurona> resNeu = new LinkedList<Neurona>();
+		Integer maxKey = calcMaxKey(wordNeuronas);
+		Integer minKey = calcMinKey(wordNeuronas);
+		
+		for (Integer key : wordNeuronas.keySet()) {
+			//if (key) TODO: calc 2nd min key
+		}
+		return resNeu;
+	}
+	
+	/**
+	 * 
+	 * @param key Neur int
+	 * @param range Depende de los detalles que se dan sobre el concepto
+	 * @return
+	 */
+	private LinkedHashMap<Integer, Neurona> getNeuByProx(String word, Integer startKey, int range) {
+		LinkedHashMap<Integer, Neurona> allWordNe = null;
+		LinkedHashMap<Integer, Neurona> rangeNe = new LinkedHashMap<Integer, Neurona>();
+
+		if ((allWordNe = neuronas.get(word)) != null) {
+			int[] ranges = {Math.max(0, startKey - range), startKey + range};
+
+			for (Integer nKey : allWordNe.keySet()) {
+				if (ranges[0] < nKey || (nKey > 0 && nKey < ranges[1])) {
+					rangeNe.put(nKey, allWordNe.get(nKey));
+				}
+			}
+		}
+
+		return rangeNe;
+	}
+
+	public void stop() {
+		matBlanca.stop();
+	}
 
 	public Database getDb() {
 		return db;
@@ -154,5 +209,5 @@ public class Cerebro {
 	public void setDb(Database db) {
 		this.db = db;
 	}
-	 
+
 }
