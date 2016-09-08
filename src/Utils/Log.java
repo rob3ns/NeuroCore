@@ -20,6 +20,11 @@ public class Log {
 		className = c.getSimpleName();
 		resetData();
 	}
+	
+	public Log (String name) {
+		className = name;
+		resetData();
+	}
 
 	private void resetData() {
 		logInfo = new ArrayList<String>();

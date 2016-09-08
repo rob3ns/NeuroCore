@@ -17,11 +17,14 @@
 package Cerebro;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
+import Utils.Caster;
 import Cerebro.Hemisferios.Hemisferio;
 import Cerebro.Lobulos.LFrontal;
 import Cerebro.Lobulos.LOccipital;
@@ -137,7 +140,7 @@ public class Cerebro {
 
 	private Integer calcLastKey(LinkedHashMap<Integer, Neurona> wordNeuronas) {
 		Integer num = 0;
-		for (Integer i : wordNeuronas.keySet()) {
+		for (Integer i : Caster.safeIterable(wordNeuronas.keySet())) {
 			num = i;
 		}
 
@@ -146,38 +149,65 @@ public class Cerebro {
 
 	private Integer calcMaxKey(LinkedHashMap<Integer, Neurona> wordNeuronas) {
 		Integer max = Integer.MIN_VALUE;
-		for (Integer i : wordNeuronas.keySet()) {
+
+		for (Integer i : Caster.safeIterable(wordNeuronas.keySet())) {
 			if (i > max) {
 				max = i;
 			}
 		}
 		return max;
 	}
-	
+
 	private Integer calcMinKey(LinkedHashMap<Integer, Neurona> wordNeuronas) {
 		Integer min = Integer.MAX_VALUE;
-		for (Integer i : wordNeuronas.keySet()) {
+
+		for (Integer i : Caster.safeIterable(wordNeuronas.keySet())) {
 			if (i < min) {
 				min = i;
 			}
 		}
 		return min;
 	}
-	
+
+	/**
+	 * 
+	 * @param wordNeuronas
+	 * @param key Start, last min 
+	 * @return
+	 */
+	private Integer calc2MinKey(LinkedHashMap<Integer, Neurona> wordNeuronas, Integer key) {
+		Integer minKey = key;
+		Integer min = Integer.MAX_VALUE;
+
+		for (Integer i : Caster.safeIterable(wordNeuronas.keySet())) {
+			if (i > minKey && i < min) {
+				min  = i;
+				if (min - minKey == 1) {
+					break;
+				}
+			}
+		}
+		return null;
+	}
+
 	private LinkedList<Neurona> getOrderedNeuByKey(LinkedHashMap<Integer, Neurona> wordNeuronas) {
 		LinkedList<Neurona> resNeu = new LinkedList<Neurona>();
-		Integer maxKey = calcMaxKey(wordNeuronas);
-		Integer minKey = calcMinKey(wordNeuronas);
-		
-		for (Integer key : wordNeuronas.keySet()) {
-			//if (key) TODO: calc 2nd min key
+		List<Integer> indexs = new ArrayList<Integer>();
+		indexs.addAll(wordNeuronas.keySet());
+		Collections.sort(indexs);
+
+		for (Integer key : Caster.safeIterable(indexs)) {
+			Neurona neu = null;
+			if ((neu = wordNeuronas.get(key)) != null) {
+				resNeu.add(neu);
+			}
 		}
 		return resNeu;
 	}
-	
+
 	/**
 	 * 
-	 * @param key Neur int
+	 * @param startKey Neu int
 	 * @param range Depende de los detalles que se dan sobre el concepto
 	 * @return
 	 */
