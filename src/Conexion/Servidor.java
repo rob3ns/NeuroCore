@@ -16,8 +16,6 @@
  */
 package Conexion;
 
-import Cerebro.Cerebro;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +25,9 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import Cerebro.Cerebro;
 import Utils.Log;
+import Utils.Opcodes.Opcode;
 
 /**
  * @author rob3ns
@@ -40,6 +40,7 @@ public class Servidor extends Thread {
 	private boolean on;
 	private Cerebro c;
 	private Log log;
+	private Opcode opcode;
 
 	public Servidor(Cerebro c) {
 		this.c = c;
@@ -88,9 +89,10 @@ public class Servidor extends Thread {
 			inpStr = clienteSck.getInputStream();
 			outpStr = clienteSck.getOutputStream();
 
+			opcode.setInt(fluin.readInt());
 			int cantidad = fluin.readInt();
 			if (cantidad > 0) {
-				for (int i = 0; i < cantidad; i++) {
+				for (int i = 0; i < cantidad; ++i) {
 					byte[] b = new byte[fluin.readInt()];
 					fluin.readFully(b);
 	
@@ -98,7 +100,7 @@ public class Servidor extends Thread {
 				}
 				
 				String word = fluin.readUTF();
-				c.reciTransferencia(word); //mgris -> c
+				c.reciTransferencia(word, opcode); //mgris -> c
 			}
 		} catch (IOException ex) {
 			log.error("Al recibir bytes.");

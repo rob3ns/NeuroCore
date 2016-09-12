@@ -28,6 +28,7 @@ import java.util.Map.Entry;
 import Cerebro.Neurona;
 import Utils.Caster;
 import Utils.Log;
+import Utils.Opcodes.Opcode;
 
 /**
  * @author rob3ns
@@ -40,11 +41,13 @@ public class Cliente extends Thread {
 	private final Map<Integer, Neurona> neuronas;
 	private Log log;
 	private String word;
+	private Opcode opcode;
 
-	public Cliente(String word, Map<Integer, Neurona> info) {
+	public Cliente(String word, Map<Integer, Neurona> info, Opcode  op) {
 		this.word = word;
 		neuronas = info;
 		log = new Log(this.getClass());
+		this.opcode = op;
 	}
 
 	@Override
@@ -80,11 +83,13 @@ public class Cliente extends Thread {
 			inpStr = clienteSck.getInputStream();
 			outpStr = clienteSck.getOutputStream();
 
+			fluout.write(opcode.getInt());
+
 			if (!neuronas.isEmpty()) {
 				fluout.write(neuronas.size());
 				for (Entry<Integer, Neurona> n : neuronas.entrySet()) {
 					byte[] b = Caster.bitSetToByteArray(n.getValue().getNucleo());
-	
+
 					fluout.write(b.length);
 					fluout.write(b);
 				}

@@ -19,11 +19,14 @@ package Cerebro.Materia;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
+
 import Cerebro.Cerebro;
 import Cerebro.Neurona;
 import Conexion.Cliente;
 import Conexion.Servidor;
 import Utils.Log;
+import Utils.Opcodes.Opcode;
 
 /**
  * @author rob3ns
@@ -57,8 +60,8 @@ public class MBlanca {
 	 * Transfer. al otro hemisf
 	 * @param neuronas Lo que pasas al otro, Array
 	 */
-	public void transferencia(String word, Map<Integer, Neurona> neuronas) {
-		client = new Cliente(word, neuronas);
+	public void transferencia(String word, Map<Integer, Neurona> neuronas, Opcode op) {
+		client = new Cliente(word, neuronas, op);
 		if (!client.isAlive()) {
 			client.start();
 		}
@@ -80,7 +83,7 @@ public class MBlanca {
 			try {
 				client.join();
 			} catch (InterruptedException e) {
-				log.error("In general stop, client join.");
+				log.error("In client join.");
 			}
 		}
 	}
@@ -90,7 +93,7 @@ public class MBlanca {
 	 */
 	private void dummyClient() {
 		if (server.isAlive()) {
-			client = new Cliente("" ,new LinkedHashMap<Integer, Neurona>());
+			client = new Cliente("" ,new LinkedHashMap<Integer, Neurona>(), Opcode.INFO);
 			client.start();
 
 			if (client.isAlive()) {
