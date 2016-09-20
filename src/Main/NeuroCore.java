@@ -94,7 +94,7 @@ public class NeuroCore {
 
 	private void driverDatabase() {
 		log.debug("Cargando driver...");
-
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			log.debug("Driver cargado!");

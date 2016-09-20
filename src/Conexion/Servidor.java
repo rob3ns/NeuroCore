@@ -26,8 +26,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Cerebro.Cerebro;
+import Opcodes.Opcode.Opc;
 import Utils.Log;
-import Utils.Opcodes.Opcode;
 
 /**
  * @author rob3ns
@@ -40,7 +40,7 @@ public class Servidor extends Thread {
 	private boolean on;
 	private Cerebro c;
 	private Log log;
-	private Opcode opcode;
+	private Opc opcode;
 
 	public Servidor(Cerebro c) {
 		this.c = c;

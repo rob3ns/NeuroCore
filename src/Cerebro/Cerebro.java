@@ -24,8 +24,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import Utils.Caster;
-import Utils.Opcodes.Opcode;
 import Cerebro.Hemisferios.Hemisferio;
 import Cerebro.Lobulos.LFrontal;
 import Cerebro.Lobulos.LOccipital;
@@ -34,6 +32,8 @@ import Cerebro.Lobulos.LTemporal;
 import Cerebro.Materia.MBlanca;
 import Cerebro.Materia.MGris;
 import Conexion.Database;
+import Opcodes.Opcode.Opc;
+import Utils.Caster;
 
 /**
  * @author rob3ns
@@ -120,7 +120,7 @@ public class Cerebro {
 	 * Pasar datos al otro hemisf (cl -> serv)
 	 * Llamada: TODO
 	 */
-	public void transferHemisferioOpuesto(String word, Opcode op) {
+	public void transferHemisferioOpuesto(String word, Opc op) {
 		//TODO: determinar que neuronas son las que se envian
 		this.matBlanca.transferencia(word, getNeuronasByWord(word), op);
 	}
@@ -129,7 +129,7 @@ public class Cerebro {
 	 * Recibir datos del otro hemisf
 	 * Llamada en servidor
 	 */
-	public void reciTransferencia(String word, Opcode op) {
+	public void reciTransferencia(String word, Opc op) {
 		LinkedHashMap<Integer, Neurona> wordNeuronas = getNeuronasByWord(word);
 		Integer key = calcLastKey(wordNeuronas);
 
@@ -141,7 +141,7 @@ public class Cerebro {
 		handleOpcode(op);
 	}
 
-	private void handleOpcode(Opcode op) {
+	private void handleOpcode(Opc op) {
 		//TODO
 	}
 	

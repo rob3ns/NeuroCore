@@ -26,9 +26,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import Cerebro.Neurona;
+import Opcodes.Opcode.Opc;
 import Utils.Caster;
 import Utils.Log;
-import Utils.Opcodes.Opcode;
 
 /**
  * @author rob3ns
@@ -41,9 +41,9 @@ public class Cliente extends Thread {
 	private final Map<Integer, Neurona> neuronas;
 	private Log log;
 	private String word;
-	private Opcode opcode;
+	private Opc opcode;
 
-	public Cliente(String word, Map<Integer, Neurona> info, Opcode  op) {
+	public Cliente(String word, Map<Integer, Neurona> info, Opc  op) {
 		this.word = word;
 		neuronas = info;
 		log = new Log(this.getClass());

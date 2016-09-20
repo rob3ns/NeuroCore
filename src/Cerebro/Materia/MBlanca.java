@@ -19,14 +19,12 @@ package Cerebro.Materia;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
-
 import Cerebro.Cerebro;
 import Cerebro.Neurona;
 import Conexion.Cliente;
 import Conexion.Servidor;
+import Opcodes.Opcode.Opc;
 import Utils.Log;
-import Utils.Opcodes.Opcode;
 
 /**
  * @author rob3ns
@@ -60,7 +58,7 @@ public class MBlanca {
 	 * Transfer. al otro hemisf
 	 * @param neuronas Lo que pasas al otro, Array
 	 */
-	public void transferencia(String word, Map<Integer, Neurona> neuronas, Opcode op) {
+	public void transferencia(String word, Map<Integer, Neurona> neuronas, Opc op) {
 		client = new Cliente(word, neuronas, op);
 		if (!client.isAlive()) {
 			client.start();
@@ -93,7 +91,7 @@ public class MBlanca {
 	 */
 	private void dummyClient() {
 		if (server.isAlive()) {
-			client = new Cliente("" ,new LinkedHashMap<Integer, Neurona>(), Opcode.INFO);
+			client = new Cliente("" ,new LinkedHashMap<Integer, Neurona>(), Opc.INFO);
 			client.start();
 
 			if (client.isAlive()) {
