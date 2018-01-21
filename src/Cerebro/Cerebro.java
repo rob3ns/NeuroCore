@@ -135,7 +135,7 @@ public class Cerebro {
 
 		ArrayList<Neurona> info = matGris.pasarInfo();
 		for (Neurona neu : info) {
-			wordNeuronas.put(key++, neu);
+			wordNeuronas.put(++key, neu);
 		}
 		
 		handleOpcode(op);
