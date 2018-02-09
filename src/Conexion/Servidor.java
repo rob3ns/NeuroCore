@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 
 import Cerebro.Cerebro;
 import Opcodes.Opcode.Opc;
-import Utils.Log;
+import utils.Log;
 
 /**
  * @author rob3ns

@@ -1,5 +1,7 @@
 package Utils;
 
+import utils.Log;
+
 public class Panic {
 
 	private static Log l = new Log("Panic");

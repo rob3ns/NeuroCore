@@ -27,8 +27,8 @@ import java.util.Map.Entry;
 
 import Cerebro.Neurona;
 import Opcodes.Opcode.Opc;
-import Utils.Caster;
-import Utils.Log;
+import utils.Caster;
+import utils.Log;
 
 /**
  * @author rob3ns

@@ -24,7 +24,7 @@ import Cerebro.Neurona;
 import Conexion.Cliente;
 import Conexion.Servidor;
 import Opcodes.Opcode.Opc;
-import Utils.Log;
+import utils.Log;
 
 /**
  * @author rob3ns

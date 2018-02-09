@@ -19,7 +19,7 @@ package Cerebro;
 import java.util.BitSet;
 import java.util.LinkedList;
 
-import Utils.Caster;
+import utils.Caster;
 
 /**
  * @author rob3ns

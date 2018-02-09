@@ -16,13 +16,11 @@
  */
 package Main;
 
-import Cerebro.Cerebro;
-import Conexion.Database;
-
 import java.util.Scanner;
 
-
-import Utils.Log;
+import Cerebro.Cerebro;
+import Conexion.Database;
+import utils.Log;
 
 /**
  * @author rob3ns
